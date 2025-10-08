@@ -1,0 +1,36 @@
+#ifndef MACROS_H_INCLUDED
+#define MACROS_H_INCLUDED
+
+
+
+#define ID_FONDO 0
+#define ID_AZUL 1
+#define ID_VERDE 2
+#define ID_ROJO 3
+#define ID_AMARILLO 4
+#define ID_VIOLETA 5
+#define ID_NARANJA 6
+#define ID_NEGRO 7
+#define ID_BLANCO 8
+
+#define ID_BOTON_MODO 9
+
+#define ID_BOTON_SALIR 10
+
+#define ID_BOTON_CONFIG 11
+
+#define ID_BOTON_SCHONBERG 12
+
+#define ID_BOTON_MOZART 13
+
+#define ID_BOTON_DESAFIO 14
+
+#define ID_BOTON_VOLVER 15
+
+
+
+#define CANTIDAD_BOTONES 15
+#define CANTIDAD_OBJETOS 16
+
+
+#endif // MACROS_H_INCLUDED

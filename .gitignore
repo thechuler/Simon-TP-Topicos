@@ -1,0 +1,5 @@
+obj/
+*.layout
+*.depend
+*.txt
+*.exe
