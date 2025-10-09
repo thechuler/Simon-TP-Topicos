@@ -39,6 +39,15 @@ void MelodiaAgregarNota(melodia_t *melodia,int nota)
 
 
 
+void MelodiaReiniciar(melodia_t *melodia,int capacidad_inicial){
+
+ if (melodia->p != NULL) {
+        free(melodia->p);
+    }
+   MelodiaInicializar(melodia,capacidad_inicial,melodia->nivel);
+}
+
+
 
 //----------Agrega una nota Aleatoria entre 1 y el nivel ----------//
 void MelodiaAgregarAleatoria(melodia_t *melodia, int cantidad)
@@ -134,16 +143,24 @@ void MelodiaGuardar(melodia_t *melodia)
 }
 
 
-void MelodiaCargar(melodia_t *melodia)
+
+void MelodiaCargar(melodia_t *melodia,const char* ruta)
 {
-    FILE *f = fopen("guardado.dat","rb");
-    if(!f) return;
-    melodia->cant_notas = 0;
-    int leidos = fread(melodia->p, sizeof(int), melodia->cant_total_notas, f);
-    melodia->cant_notas = leidos;
+    FILE *f = fopen(ruta, "rb");
+    if (!f) {
+        printf("No se pudo abrir el archivo.\n");
+        return;
+    }
+
+    int nota;
+
+    while (fread(&nota, sizeof(int), 1, f) == 1) {
+       MelodiaAgregarNota(&jugador,nota);
+    }
 
     fclose(f);
 }
+
 
 
 

@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -15,6 +16,8 @@
 #define MODO_SCHONBERG 0
 
 #define MODO_MOZART 1
+
+#define MODO_DESAFIO 2
 
 
 

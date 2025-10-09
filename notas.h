@@ -35,10 +35,11 @@ int MelodiaComprobarIngreso(melodia_t *,int);
 void MelodiaInicializar(melodia_t *, int ,unsigned );
 void MelodiaMostrarConsola(melodia_t *);
 void MelodiaGuardar(melodia_t *);
-void MelodiaCargar(melodia_t *);
+void MelodiaCargar(melodia_t *,const char* );
 void MelodiaAnimar(melodia_t *,imagen_t *);
 void MelodiaGano(melodia_t *);
 void MelodiaGanoAnimacion(imagen_t *);
+void MelodiaReiniciar(melodia_t *,int);
 
 
 

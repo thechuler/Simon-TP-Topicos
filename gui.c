@@ -1,5 +1,42 @@
 #include "gui.h"
+#include "variables_globales.h"
 
+char* AbrirExploradorYRecuperarRuta(void) {
+    OPENFILENAME ofn;       //z----- Estructura del dialogo, esta en windows.h
+    char szFile[260];       //<---- Buffer donde guardaria la ruta
+
+    ZeroMemory(&ofn, sizeof(ofn));
+    ZeroMemory(szFile, sizeof(szFile));      //<------ Limpia para evitar basura
+
+    ofn.lStructSize = sizeof(ofn); //<-----Tamaño de la structura
+    ofn.hwndOwner = NULL;   // Ventana padre (NULL = consola)
+    ofn.lpstrFile = szFile; //<----donde guarda la ruta
+    ofn.lpstrFile[0] = '\0'; //<--- Lo inicializa vacio
+    ofn.nMaxFile = sizeof(szFile);  //<--- tam maximo
+    ofn.lpstrFilter =
+        "Archivos DAT (*.dat)\0*.dat\0"
+        "Todos los archivos (*.*)\0*.*\0";   //<----Este filtro hace que aparezcan los binarios en la busqueda
+
+
+    ofn.nFilterIndex = 1;       //<--- orden de los filtros
+
+    ofn.lpstrFileTitle = NULL;  //<--- No me interesa guardar solo el nombre del archivo
+    ofn.nMaxFileTitle = 0;
+
+    ofn.lpstrInitialDir = NULL; //<----  Empieza en el directorio actual
+
+    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST; //<------- condicional, el archivo debe existir al igual que la ruta
+
+
+    if (GetOpenFileName(&ofn)) {   //<--- Abre la ventana y si el user eligio un archivo lo guarda
+        char* ruta = (char*)malloc(strlen(ofn.lpstrFile) + 1);
+        if (ruta) strcpy(ruta, ofn.lpstrFile);
+        return ruta;
+    } else {
+        return NULL;
+    }
+
+}
 
 
 //-------Comprueba si un boton fue clickeado y activa su funcion asociada-----//
@@ -15,8 +52,12 @@ int BotonesActivosComprobarInteraccion(boton_t *botones, int x, int y)
             {
                 botones[i].imagen->frame_actual =0;
                 botones[i].imagen->debe_animar = 1;
-                botones[i].accion(botones[i].param1, botones[i].param2);
-
+                if(i>=ID_FONDO && i<=ID_BLANCO){
+              //  printf("%d",botones[i].id);
+                botones[i].accion(botones[i].id);
+                }else{
+                botones[i].accion();
+                }
                 return  0;
             }
         }
@@ -141,5 +182,79 @@ botones[BotonesObtenerPorId(botones,ID_BLANCO)].esta_activo = 1;
 objeto[ID_BOTON_VOLVER].debe_Renderizar = 1;
 botones[BotonesObtenerPorId(botones,ID_BOTON_VOLVER)].esta_activo = 1;
 }
+
+
+//------------Setea la pantalla schonberg-----------------//
+void PantallasDesafio(imagen_t *objeto,boton_t *botones){
+PantallaBloquearBotones(botones);
+PantallasLimpiar(objeto);
+
+objeto[ID_AZUL].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_AZUL)].esta_activo = 1;
+
+objeto[ID_ROJO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_ROJO)].esta_activo = 1;
+
+objeto[ID_VERDE].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_VERDE)].esta_activo = 1;
+
+objeto[ID_AMARILLO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_AMARILLO)].esta_activo = 1;
+
+objeto[ID_VIOLETA].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_VIOLETA)].esta_activo = 1;
+
+objeto[ID_NARANJA].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_NARANJA)].esta_activo = 1;
+
+objeto[ID_NEGRO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_NEGRO)].esta_activo = 1;
+
+objeto[ID_BLANCO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_BLANCO)].esta_activo = 1;
+
+
+objeto[ID_BOTON_GUARDAR].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_BOTON_GUARDAR)].esta_activo = 1;
+
+objeto[ID_BOTON_VOLVER].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_BOTON_VOLVER)].esta_activo = 1;
+}
+
+
+void PantallasMozart(imagen_t *objeto,boton_t *botones){
+PantallaBloquearBotones(botones);
+PantallasLimpiar(objeto);
+
+objeto[ID_AZUL].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_AZUL)].esta_activo = 1;
+
+objeto[ID_ROJO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_ROJO)].esta_activo = 1;
+
+objeto[ID_VERDE].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_VERDE)].esta_activo = 1;
+
+objeto[ID_AMARILLO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_AMARILLO)].esta_activo = 1;
+
+objeto[ID_VIOLETA].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_VIOLETA)].esta_activo = 1;
+
+objeto[ID_NARANJA].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_NARANJA)].esta_activo = 1;
+
+objeto[ID_NEGRO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_NEGRO)].esta_activo = 1;
+
+objeto[ID_BLANCO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_BLANCO)].esta_activo = 1;
+
+objeto[ID_BOTON_VOLVER].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(botones,ID_BOTON_VOLVER)].esta_activo = 1;
+}
+
+
+
 
 

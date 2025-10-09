@@ -2,9 +2,12 @@
 #define VARIABLES_GLOBALES_H_INCLUDED
 
 #include "notas.h"
+#include "video.h"
+#include "gui.h"
 
 
-
+extern imagen_t objetos[CANTIDAD_OBJETOS];
+extern  boton_t botones[CANTIDAD_BOTONES];
 extern int corriendo;
 extern int modo;
 extern int resultado;

@@ -2,23 +2,16 @@
 #include "video.h"
 
 
-//-------Crear ventana e inicializar el render------------//
-void IniciarGraficos(app_t *aplicacion)
-{
 
 
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
-    {
-        printf("Error al iniciar video: %s\n", SDL_GetError());
-        exit(1);
-    }
 
-    aplicacion->ventana = SDL_CreateWindow(    //<-----Creacion de la ventana
-                              TITULO,
+void CrearVentana(app_t *aplicacion,const char *titulo,int ancho,int alto){
+ aplicacion->ventana = SDL_CreateWindow(    //<-----Creacion de la ventana
+                              titulo,
                               SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED,
-                              PANTALLA_ANCHO,
-                              PANTALLA_ALTO,
+                              ancho,
+                              alto,
                               SDL_WINDOW_SHOWN
                           );
 
@@ -41,10 +34,6 @@ void IniciarGraficos(app_t *aplicacion)
     }
 
 }
-
-
-
-
 
 
 
@@ -128,7 +117,7 @@ void ImagenCargar(imagen_t *imagen,app_t *applicacion)  //<--------Prepara una i
     }
 
 
-    SDL_RenderCopy(applicacion->renderer, imagen->textura, NULL, &imagen->configs);
+    SDL_RenderCopy(applicacion->renderer, imagen->textura, NULL, &imagen->configs); //<-- COPIA AL RENDER TODA LA TEXTURA
 
 }
 
@@ -202,6 +191,7 @@ void ManejarAnimaciones(imagen_t *objetos)
         }
     }
 }
+
 
 
 

@@ -2,6 +2,7 @@
 #define VIDEO_H_INCLUDED
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <stdio.h>
 #include "macros.h"
 
@@ -43,7 +44,7 @@ typedef struct {
 
 
 
-void IniciarGraficos(app_t*);
+void CrearVentana(app_t*,const char*,int,int);
 void ManejarAnimaciones(imagen_t  *);
 void ActualizarRender(app_t *, imagen_t *);
 void ImagenCargar(imagen_t*,app_t*);
