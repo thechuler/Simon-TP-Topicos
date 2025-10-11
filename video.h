@@ -30,12 +30,10 @@ typedef struct {
 
 
 typedef struct {
-   SDL_Surface *surface;     //<-- Superficie de la imagen
-   SDL_Texture *textura;     //<--- Textura de la imagen
+   SDL_Texture **texturas;     //<--- Textura de la imagen
    SDL_Rect configs;         //<-- Pos y tam de un rectangulo que representa la imagen
    char debe_Renderizar;     //<-- Si deberia o no renderizar
    char debe_animar;         //<-- Si deberia o no animar
-   char **fotogramas;        //<--vector de string que representa los nombres de los archivos que forman cada frame
    int frame_actual;         //<--- En que frame se encuentra la animacion
    int frames_totales;       //<-- Cuantos frames hay
    int modo_reproduccion;    //<--- El modo en el que se van a animar
@@ -48,8 +46,8 @@ void CrearVentana(app_t*,const char*,int,int);
 void ManejarAnimaciones(imagen_t  *);
 void ActualizarRender(app_t *, imagen_t *);
 void ImagenCargar(imagen_t*,app_t*);
-
-imagen_t ImagenCrear(int,const char *, int , int , int , int , int,int);
+SDL_Texture* CargarTexturaDesdeBinario(const char* ruta, SDL_Renderer* renderer);
+imagen_t ImagenCrear(app_t*,int,SDL_Texture**, int , int , int , int , int,int);
 
 
 

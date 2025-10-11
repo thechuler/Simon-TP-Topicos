@@ -6,36 +6,58 @@ int main(int argc, char *argv[])
     srand(time(NULL));
     app_t juego;
     app_t ventana_auxiliar;
+    CrearVentana(&juego,"Simon",700,500);
+    int ingresoTexto = 0;
+    int ventana_abierta=0;
 
 
+    SDL_Texture *rosa[6] ={
+    CargarTexturaDesdeBinario("img/rosa1.bin", juego.renderer),
+    CargarTexturaDesdeBinario("img/rosa2.bin", juego.renderer),
+    CargarTexturaDesdeBinario("img/rosa3.bin", juego.renderer),
+    CargarTexturaDesdeBinario("img/rosa4.bin", juego.renderer),
+    CargarTexturaDesdeBinario("img/rosa5.bin", juego.renderer),
+    CargarTexturaDesdeBinario("img/rosa6.bin", juego.renderer),
+    };
 
-int ingresoTexto = 0;
-int ventana_abierta=0;
+
+    SDL_Texture *boton[2] ={
+    CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer),
+    CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer),
+    };
+
+    SDL_Texture *fondo[1] ={
+    CargarTexturaDesdeBinario("img/fondo1.bin", juego.renderer),
+    };
+
+      SDL_Texture *home[1] ={
+    CargarTexturaDesdeBinario("img/home1.bin", juego.renderer),
+    };
 
 
 
 
     //----------------------------DECLARACION DE OBJETOS---------------------------------------------------//
-    objetos[ID_FONDO] = ImagenCrear(1, "fondo", PANTALLA_ALTO, PANTALLA_ANCHO, 0, 0, ANIMACION_NO, ID_FONDO);
-    objetos[ID_BOTON_MODO] = ImagenCrear(2, "boton", 100, 200, 0, 100, ANIMACION_RESET, ID_BOTON_MODO);
-    objetos[ID_BOTON_CONFIG] = ImagenCrear(2, "boton", 100, 200, 0, 250, ANIMACION_RESET, ID_BOTON_CONFIG);
-    objetos[ID_BOTON_VOLVER] = ImagenCrear(1, "home", 100, 100, 600, 400, ANIMACION_RESET, ID_BOTON_VOLVER);
-    objetos[ID_BOTON_SALIR] = ImagenCrear(2, "boton", 100, 200, 0, 400, ANIMACION_RESET, ID_BOTON_SALIR);
+   objetos[ID_FONDO] = ImagenCrear(&juego,1, fondo, PANTALLA_ALTO, PANTALLA_ANCHO, 0, 0, ANIMACION_NO, ID_FONDO);
+    objetos[ID_BOTON_MODO] = ImagenCrear(&juego,2, boton, 100, 200, 0, 100, ANIMACION_RESET, ID_BOTON_MODO);
+    objetos[ID_BOTON_CONFIG] = ImagenCrear(&juego,2, boton, 100, 200, 0, 250, ANIMACION_RESET, ID_BOTON_CONFIG);
+    objetos[ID_BOTON_VOLVER] = ImagenCrear(&juego,1, home, 100, 100, 600, 400, ANIMACION_RESET, ID_BOTON_VOLVER);
+    objetos[ID_BOTON_SALIR] = ImagenCrear(&juego,2, boton, 100, 200, 0, 400, ANIMACION_RESET, ID_BOTON_SALIR);
 
-    objetos[ID_AZUL]     = ImagenCrear(6, "rosa", 160, 120, 125, 180, ANIMACION_RESET, ID_AZUL);
-    objetos[ID_VERDE]    = ImagenCrear(6, "rosa", 160, 120, 235, 180, ANIMACION_RESET, ID_VERDE);
-    objetos[ID_ROJO]     = ImagenCrear(6, "rosa", 160, 120, 345, 180, ANIMACION_RESET, ID_ROJO);
-    objetos[ID_AMARILLO] = ImagenCrear(6, "rosa", 160, 120, 455, 180, ANIMACION_RESET, ID_AMARILLO);
+    objetos[ID_AZUL]     = ImagenCrear(&juego,6, rosa, 160, 120, 125, 180, ANIMACION_RESET, ID_AZUL);
+    objetos[ID_VERDE]    = ImagenCrear(&juego,6, rosa, 160, 120, 235, 180, ANIMACION_RESET, ID_VERDE);
+    objetos[ID_ROJO]     = ImagenCrear(&juego,6, rosa, 160, 120, 345, 180, ANIMACION_RESET, ID_ROJO);
+    objetos[ID_AMARILLO] = ImagenCrear(&juego,6, rosa, 160, 120, 455, 180, ANIMACION_RESET, ID_AMARILLO);
 
-    objetos[ID_VIOLETA]  = ImagenCrear(6, "rosa", 160, 120, 125, 260, ANIMACION_RESET, ID_VIOLETA);
-    objetos[ID_NARANJA]  = ImagenCrear(6, "rosa", 160, 120, 235, 260, ANIMACION_RESET, ID_NARANJA);
-    objetos[ID_NEGRO]    = ImagenCrear(6, "rosa", 160, 120, 345, 260, ANIMACION_RESET, ID_NEGRO);
-    objetos[ID_BLANCO]   = ImagenCrear(6, "rosa", 160, 120, 455, 260, ANIMACION_RESET, ID_BLANCO);
+    objetos[ID_VIOLETA]  = ImagenCrear(&juego,6, rosa, 160, 120, 125, 260, ANIMACION_RESET, ID_VIOLETA);
+    objetos[ID_NARANJA]  = ImagenCrear(&juego,6, rosa, 160, 120, 235, 260, ANIMACION_RESET, ID_NARANJA);
+    objetos[ID_NEGRO]    = ImagenCrear(&juego,6, rosa, 160, 120, 345, 260, ANIMACION_RESET, ID_NEGRO);
+    objetos[ID_BLANCO]   = ImagenCrear(&juego,6, rosa, 160, 120, 455, 260, ANIMACION_RESET, ID_BLANCO);
 
-    objetos[ID_BOTON_SCHONBERG] = ImagenCrear(2, "boton", 100, 200, 0, 100, ANIMACION_RESET, ID_BOTON_SCHONBERG);
-    objetos[ID_BOTON_MOZART]    = ImagenCrear(2, "boton", 100, 200, 0, 250, ANIMACION_RESET, ID_BOTON_MOZART);
-    objetos[ID_BOTON_DESAFIO]   = ImagenCrear(2, "boton", 100, 200, 0, 400, ANIMACION_RESET, ID_BOTON_DESAFIO);
-    objetos[ID_BOTON_GUARDAR]   = ImagenCrear(2, "boton", 100, 200, 0, 400, ANIMACION_RESET, ID_BOTON_GUARDAR);
+    objetos[ID_BOTON_SCHONBERG] = ImagenCrear(&juego,2, boton, 100, 200, 0, 100, ANIMACION_RESET, ID_BOTON_SCHONBERG);
+    objetos[ID_BOTON_MOZART]    = ImagenCrear(&juego,2, boton, 100, 200, 0, 250, ANIMACION_RESET, ID_BOTON_MOZART);
+    objetos[ID_BOTON_DESAFIO]   = ImagenCrear(&juego,2, boton, 100, 200, 0, 400, ANIMACION_RESET, ID_BOTON_DESAFIO);
+    objetos[ID_BOTON_GUARDAR]   = ImagenCrear(&juego,2, boton, 100, 200, 0, 400, ANIMACION_RESET, ID_BOTON_GUARDAR);
     //-----------------------------------------------------------------------------------------------------------------//
 
 
@@ -57,7 +79,7 @@ int ventana_abierta=0;
     char texto[256] = "";
 
     SDL_Event e;
-    CrearVentana(&juego,"Simon",700,500);
+
 
 
 
@@ -222,11 +244,19 @@ int ventana_abierta=0;
        //----------------------------------------------------------------------------//
 
 
+/*
+//SDL_Texture* miTextura =
+objetos[ID_FONDO].texturas[0] =  CargarTexturaDesdeBinario("img/fondo1.bin", juego.renderer);
+  SDL_RenderClear(juego.renderer);
+  SDL_SetRenderDrawColor(juego.renderer, 255, 255, 255, 255);
+if (objetos[ID_FONDO].texturas[0]) {
+    SDL_Rect dest = {160, 120, 225, 280};
+    SDL_RenderCopy(juego.renderer, miTextura, NULL, &dest);
+}
+*/
 
 
-
-        SDL_RenderClear(juego.renderer);
-        ManejarAnimaciones(objetos);
+       ManejarAnimaciones(objetos);
         ActualizarRender(&juego, objetos);
         SDL_RenderPresent(juego.renderer);
         SDL_Delay(100); // Control de FPS
