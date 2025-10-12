@@ -69,6 +69,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="sonidos.h" />
+		<Unit filename="texto.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="variables_globales.c">
 			<Option compilerVar="CC" />
 		</Unit>

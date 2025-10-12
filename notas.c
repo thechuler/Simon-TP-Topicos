@@ -109,27 +109,52 @@ int MelodiaComprobarIngreso(melodia_t *melodia,int input)
 
 
 
-void MelodiaGanoAnimacion(imagen_t *objetos){
+void MelodiaGanoAnimacion(){
 
  printf("\n\n GANASTE!\n");
- animando_victoria = 1;
+ animando_fin_ronda = 1;
  esta_reproduciendo = 0;
 
 for(int i= 1 ;i<9;i++){
     objetos[i].debe_animar = 1;
 }
 
+}
+
+
+void MelodiaPerdioAnimacion(){
+
+ printf("\n\n PERDISTE!\n");
+ animando_fin_ronda = 1;
+ esta_reproduciendo = 0;
+
+for(int i= 1 ;i<9;i++){
+    objetos[i].debe_animar = 1;
+}
 
 }
 
+
+
+
 void MelodiaGano(melodia_t *melodia){
+if(modo == 1){
+   // corriendo =0; //VICTORIA MOZART
+}
 MelodiaAgregarAleatoria(melodia, 1);
-//system("cls");
 MelodiaMostrarConsola(melodia);
 esta_reproduciendo = 1;
 }
 
-
+void MelodiaPerdio(melodia_t *melodia){
+if(modo == 0){
+    MelodiaInicializar(melodia,5,8);
+    MelodiaAgregarAleatoria(melodia,3);
+}
+melodia->nota_actual = 0;
+MelodiaMostrarConsola(melodia);
+esta_reproduciendo = 1;
+}
 
 
 
@@ -164,7 +189,7 @@ void MelodiaCargar(melodia_t *melodia,const char* ruta)
 
 
 
-void MelodiaAnimar(melodia_t *melodia, imagen_t *objetos)
+void MelodiaAnimar(melodia_t *melodia)
 {
 
     if (melodia->animacion_actual >= melodia->cant_notas) {
@@ -193,6 +218,46 @@ if(img->frame_actual >= img->frames_totales - 1 ){
 
 }
 
+
+
+
+
+
+
+
+int MelodiaFinalDeRonda(melodia_t *melodia,int resultado)
+{
+
+    if (objetos[melodia->p[melodia->ultima_nota]].debe_animar)
+    {
+        return resultado;
+    }
+
+  if (!animando_fin_ronda)
+{
+    printf("\n GO");
+    if (resultado == RESULTADO_GANO)
+        MelodiaGanoAnimacion();
+    else
+        MelodiaPerdioAnimacion();
+    return resultado;
+}
+    else
+    {
+        if (!objetos[ID_ROJO].debe_animar)
+        {
+            animando_fin_ronda = 0;
+            SDL_Delay(200);
+            if (resultado == RESULTADO_GANO)
+                MelodiaGano(melodia);
+            else
+                MelodiaPerdio(melodia);
+            return RESULTADO_EN_ESPERA;
+        }
+        return resultado;
+    }
+
+}
 
 
 

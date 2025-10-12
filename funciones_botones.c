@@ -36,9 +36,9 @@ void FuncionBotonMozart()
     free(ruta);
     printf("aaa");
     MelodiaMostrarConsola(&jugador);
-    PantallasMozart(objetos,botones);
+    PantallasMozart();
     modo = MODO_MOZART;
-    MelodiaAnimar(&jugador,objetos);
+    MelodiaAnimar(&jugador);
     esta_reproduciendo = 1;
 }
 
@@ -49,9 +49,13 @@ void FuncionBotonSchonberg()
     MelodiaInicializar(&melodia, 3, 8);
     MelodiaAgregarAleatoria(&melodia,3);
     MelodiaMostrarConsola(&melodia);
-    PantallasSchonberg(objetos,botones);
+
+
+   //----------------------------//
+    ventana_abierta = 1;
+    PantallasSchonberg();
     modo = MODO_SCHONBERG;
-    MelodiaAnimar(&melodia,objetos);
+    MelodiaAnimar(&melodia);
     esta_reproduciendo = 1;
 }
 

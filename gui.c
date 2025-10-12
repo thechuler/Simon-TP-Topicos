@@ -40,7 +40,7 @@ char* AbrirExploradorYRecuperarRuta(void) {
 
 
 //-------Comprueba si un boton fue clickeado y activa su funcion asociada-----//
-int BotonesActivosComprobarInteraccion(boton_t *botones, int x, int y)
+int BotonesActivosComprobarInteraccion( int x, int y)
 {
     SDL_Point click = {x, y};
 
@@ -53,7 +53,6 @@ int BotonesActivosComprobarInteraccion(boton_t *botones, int x, int y)
                 botones[i].imagen->frame_actual =0;
                 botones[i].imagen->debe_animar = 1;
                 if(i>=ID_FONDO && i<=ID_BLANCO){
-              //  printf("%d",botones[i].id);
                 botones[i].accion(botones[i].id);
                 }else{
                 botones[i].accion();
@@ -70,17 +69,18 @@ int BotonesActivosComprobarInteraccion(boton_t *botones, int x, int y)
 
 
 //-------Limpia todos los objetos de la pantalla-----//
-void PantallasLimpiar(imagen_t *objeto)
+void PantallasLimpiar()
 {
     for(int i = 0; i < CANTIDAD_OBJETOS; i++)
     {
-        objeto[i].debe_Renderizar = 0;
+        objetos[i].debe_Renderizar = 0;
+        objetos[i].debe_animar = 0;
     }
 }
 
 
 //----Bloquea todos los botones de la pantalla----//
-void PantallaBloquearBotones(boton_t *botones)
+void PantallaBloquearBotones()
 {
     for(int i = 0; i < CANTIDAD_BOTONES; i++)
     {
@@ -90,7 +90,7 @@ void PantallaBloquearBotones(boton_t *botones)
 
 
 //------Obtiene un boton por su id asignada-----//
-int BotonesObtenerPorId(boton_t *botones,int id)
+int BotonesObtenerPorId(int id)
 {
     for(int i=0; i<CANTIDAD_BOTONES; i++)
     {
@@ -106,18 +106,18 @@ int BotonesObtenerPorId(boton_t *botones,int id)
 
 
 //------------Setea el menu principal-----------------//
-void PantallasMenuPrincipal(imagen_t *objeto,boton_t *botones){
-PantallaBloquearBotones(botones);
-PantallasLimpiar(objeto);
+void PantallasMenuPrincipal(){
+PantallaBloquearBotones();
+PantallasLimpiar();
 
-objeto[ID_BOTON_SALIR].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_BOTON_SALIR)].esta_activo = 1;
+objetos[ID_BOTON_SALIR].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_BOTON_SALIR)].esta_activo = 1;
 
-objeto[ID_BOTON_CONFIG].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_BOTON_CONFIG)].esta_activo = 1;
+objetos[ID_BOTON_CONFIG].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_BOTON_CONFIG)].esta_activo = 1;
 
-objeto[ID_BOTON_MODO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_BOTON_MODO)].esta_activo = 1;
+objetos[ID_BOTON_MODO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_BOTON_MODO)].esta_activo = 1;
 
 }
 
@@ -125,133 +125,133 @@ botones[BotonesObtenerPorId(botones,ID_BOTON_MODO)].esta_activo = 1;
 
 
 //------------Setea la pantalla modos-----------------//
-void PantallasModos(imagen_t *objeto,boton_t *botones){
-PantallaBloquearBotones(botones);
-PantallasLimpiar(objeto);
+void PantallasModos(){
+PantallaBloquearBotones();
+PantallasLimpiar();
 
-objeto[ID_FONDO].debe_Renderizar = 1;
+objetos[ID_FONDO].debe_Renderizar = 1;
 
-objeto[ID_BOTON_MOZART].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_BOTON_MOZART)].esta_activo = 1;
-
-
-objeto[ID_BOTON_DESAFIO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_BOTON_DESAFIO)].esta_activo = 1;
-
-objeto[ID_BOTON_SCHONBERG].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_BOTON_SCHONBERG)].esta_activo = 1;
+objetos[ID_BOTON_MOZART].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_BOTON_MOZART)].esta_activo = 1;
 
 
-objeto[ID_BOTON_VOLVER].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_BOTON_VOLVER)].esta_activo = 1;
+objetos[ID_BOTON_DESAFIO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_BOTON_DESAFIO)].esta_activo = 1;
+
+objetos[ID_BOTON_SCHONBERG].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_BOTON_SCHONBERG)].esta_activo = 1;
+
+
+objetos[ID_BOTON_VOLVER].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_BOTON_VOLVER)].esta_activo = 1;
 }
 
 
 
 
 //------------Setea la pantalla schonberg-----------------//
-void PantallasSchonberg(imagen_t *objeto,boton_t *botones){
-PantallaBloquearBotones(botones);
-PantallasLimpiar(objeto);
+void PantallasSchonberg(){
+PantallaBloquearBotones();
+PantallasLimpiar();
 
-objeto[ID_AZUL].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_AZUL)].esta_activo = 1;
+objetos[ID_AZUL].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_AZUL)].esta_activo = 1;
 
-objeto[ID_ROJO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_ROJO)].esta_activo = 1;
+objetos[ID_ROJO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_ROJO)].esta_activo = 1;
 
-objeto[ID_VERDE].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_VERDE)].esta_activo = 1;
+objetos[ID_VERDE].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_VERDE)].esta_activo = 1;
 
-objeto[ID_AMARILLO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_AMARILLO)].esta_activo = 1;
+objetos[ID_AMARILLO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_AMARILLO)].esta_activo = 1;
 
-objeto[ID_VIOLETA].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_VIOLETA)].esta_activo = 1;
+objetos[ID_VIOLETA].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_VIOLETA)].esta_activo = 1;
 
-objeto[ID_NARANJA].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_NARANJA)].esta_activo = 1;
+objetos[ID_NARANJA].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_NARANJA)].esta_activo = 1;
 
-objeto[ID_NEGRO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_NEGRO)].esta_activo = 1;
+objetos[ID_NEGRO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_NEGRO)].esta_activo = 1;
 
-objeto[ID_BLANCO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_BLANCO)].esta_activo = 1;
+objetos[ID_BLANCO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_BLANCO)].esta_activo = 1;
 
 
-objeto[ID_BOTON_VOLVER].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_BOTON_VOLVER)].esta_activo = 1;
+objetos[ID_BOTON_VOLVER].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_BOTON_VOLVER)].esta_activo = 1;
 }
 
 
 //------------Setea la pantalla schonberg-----------------//
-void PantallasDesafio(imagen_t *objeto,boton_t *botones){
-PantallaBloquearBotones(botones);
-PantallasLimpiar(objeto);
+void PantallasDesafio(){
+PantallaBloquearBotones();
+PantallasLimpiar();
 
-objeto[ID_AZUL].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_AZUL)].esta_activo = 1;
+objetos[ID_AZUL].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_AZUL)].esta_activo = 1;
 
-objeto[ID_ROJO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_ROJO)].esta_activo = 1;
+objetos[ID_ROJO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_ROJO)].esta_activo = 1;
 
-objeto[ID_VERDE].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_VERDE)].esta_activo = 1;
+objetos[ID_VERDE].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_VERDE)].esta_activo = 1;
 
-objeto[ID_AMARILLO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_AMARILLO)].esta_activo = 1;
+objetos[ID_AMARILLO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_AMARILLO)].esta_activo = 1;
 
-objeto[ID_VIOLETA].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_VIOLETA)].esta_activo = 1;
+objetos[ID_VIOLETA].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_VIOLETA)].esta_activo = 1;
 
-objeto[ID_NARANJA].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_NARANJA)].esta_activo = 1;
+objetos[ID_NARANJA].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_NARANJA)].esta_activo = 1;
 
-objeto[ID_NEGRO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_NEGRO)].esta_activo = 1;
+objetos[ID_NEGRO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_NEGRO)].esta_activo = 1;
 
-objeto[ID_BLANCO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_BLANCO)].esta_activo = 1;
+objetos[ID_BLANCO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_BLANCO)].esta_activo = 1;
 
 
-objeto[ID_BOTON_GUARDAR].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_BOTON_GUARDAR)].esta_activo = 1;
+objetos[ID_BOTON_GUARDAR].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_BOTON_GUARDAR)].esta_activo = 1;
 
-objeto[ID_BOTON_VOLVER].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_BOTON_VOLVER)].esta_activo = 1;
+objetos[ID_BOTON_VOLVER].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_BOTON_VOLVER)].esta_activo = 1;
 }
 
 
-void PantallasMozart(imagen_t *objeto,boton_t *botones){
-PantallaBloquearBotones(botones);
-PantallasLimpiar(objeto);
+void PantallasMozart(){
+PantallaBloquearBotones();
+PantallasLimpiar();
 
-objeto[ID_AZUL].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_AZUL)].esta_activo = 1;
+objetos[ID_AZUL].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_AZUL)].esta_activo = 1;
 
-objeto[ID_ROJO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_ROJO)].esta_activo = 1;
+objetos[ID_ROJO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_ROJO)].esta_activo = 1;
 
-objeto[ID_VERDE].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_VERDE)].esta_activo = 1;
+objetos[ID_VERDE].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_VERDE)].esta_activo = 1;
 
-objeto[ID_AMARILLO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_AMARILLO)].esta_activo = 1;
+objetos[ID_AMARILLO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_AMARILLO)].esta_activo = 1;
 
-objeto[ID_VIOLETA].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_VIOLETA)].esta_activo = 1;
+objetos[ID_VIOLETA].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_VIOLETA)].esta_activo = 1;
 
-objeto[ID_NARANJA].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_NARANJA)].esta_activo = 1;
+objetos[ID_NARANJA].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_NARANJA)].esta_activo = 1;
 
-objeto[ID_NEGRO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_NEGRO)].esta_activo = 1;
+objetos[ID_NEGRO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_NEGRO)].esta_activo = 1;
 
-objeto[ID_BLANCO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_BLANCO)].esta_activo = 1;
+objetos[ID_BLANCO].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_BLANCO)].esta_activo = 1;
 
-objeto[ID_BOTON_VOLVER].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(botones,ID_BOTON_VOLVER)].esta_activo = 1;
+objetos[ID_BOTON_VOLVER].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_BOTON_VOLVER)].esta_activo = 1;
 }
 
 

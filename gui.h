@@ -25,8 +25,8 @@ typedef struct {
 
 
 void BotonesActivosAgregar(boton_t *, imagen_t *,AccionBoton accion);
-int BotonesActivosComprobarInteraccion(boton_t *, int, int);
-int BotonesObtenerPorId(boton_t *,int );
+int BotonesActivosComprobarInteraccion( int, int);
+int BotonesObtenerPorId(int );
 
 
 

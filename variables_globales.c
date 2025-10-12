@@ -3,9 +3,10 @@
 imagen_t objetos[CANTIDAD_OBJETOS]; //<------Vector Principal de imagenes. Representa todos los objetos del juego
 int corriendo = 1;
 int modo = 0;
+int ventana_abierta = 0;
 int esta_reproduciendo = 0;
 int resultado = RESULTADO_EN_ESPERA;
-char animando_victoria = 0;
+char animando_fin_ronda = 0;
 melodia_t melodia;
 melodia_t jugador;
 
