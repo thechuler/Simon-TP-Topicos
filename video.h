@@ -5,6 +5,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <stdio.h>
 #include "macros.h"
+#include "jugadores.h"
 
 #define PANTALLA_ANCHO   700      //1366
 #define PANTALLA_ALTO    500    //768
@@ -48,7 +49,8 @@ void ActualizarRender(app_t *, imagen_t *);
 void ImagenCargar(imagen_t*,app_t*);
 SDL_Texture* CargarTexturaDesdeBinario(const char* ruta, SDL_Renderer* renderer);
 imagen_t ImagenCrear(app_t*,int,SDL_Texture**, int , int , int , int , int,int);
-
+SDL_Texture* CombinarTexturaConTexto(SDL_Renderer* , SDL_Texture* , const char* , const char* , int , SDL_Color );
+SDL_Texture* CrearTexturaTopJugadores(SDL_Renderer *, TTF_Font *, jugador_t *, int );
 
 
 #endif

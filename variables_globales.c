@@ -6,9 +6,27 @@ int modo = 0;
 int ventana_abierta = 0;
 int esta_reproduciendo = 0;
 int resultado = RESULTADO_EN_ESPERA;
+int puntuacion = 0;
 char animando_fin_ronda = 0;
+int pausa = 0;
+char nombre_archivo[200];
+
+jugador_t jugadores_top[5] = {
+    {"raul",0},
+    {"raul",0},
+    {"raul",0},
+    {"raul",0},
+    {"raul",0},
+    };
+
+
+jugador_t jugador_actual  = {"desconocido",0};
 melodia_t melodia;
-melodia_t jugador;
+melodia_t melodia_jugador;
+
+
+
+
 
     //------------------------------------DECLARACION BOTONES--------------------------------//
     boton_t botones[CANTIDAD_BOTONES] = //<--------Vector Principal de botones.

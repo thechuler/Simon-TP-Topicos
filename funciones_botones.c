@@ -22,23 +22,22 @@ void FuncionBotonVolver()
 
 void FuncionBotonGuardar()
 {
-  MelodiaGuardar(&jugador);
+  MelodiaGuardar(&melodia_jugador,nombre_archivo);
 }
 
 
 
 void FuncionBotonMozart()
 {
-    MelodiaInicializar(&jugador,5,8);
+    MelodiaInicializar(&melodia_jugador,5,8);
     printf("MODO MOZART \n");
     char* ruta = AbrirExploradorYRecuperarRuta();
-    MelodiaCargar(&jugador,ruta);
+    MelodiaCargar(&melodia_jugador,ruta);
     free(ruta);
-    printf("aaa");
-    MelodiaMostrarConsola(&jugador);
+    MelodiaMostrarConsola(&melodia_jugador);
     PantallasMozart();
     modo = MODO_MOZART;
-    MelodiaAnimar(&jugador);
+    MelodiaAnimar(&melodia_jugador);
     esta_reproduciendo = 1;
 }
 
@@ -49,21 +48,17 @@ void FuncionBotonSchonberg()
     MelodiaInicializar(&melodia, 3, 8);
     MelodiaAgregarAleatoria(&melodia,3);
     MelodiaMostrarConsola(&melodia);
-
-
-   //----------------------------//
     ventana_abierta = 1;
     PantallasSchonberg();
-    modo = MODO_SCHONBERG;
-    MelodiaAnimar(&melodia);
-    esta_reproduciendo = 1;
+    PantallaBloquearBotones();
 }
 
 void FuncionBotonDesafio()
 {
-    MelodiaInicializar(&jugador, 3, 8);
+    MelodiaInicializar(&melodia_jugador, 3, 8);
     PantallasDesafio(objetos,botones);
     modo = MODO_DESAFIO;
+    ventana_abierta = 1;
 }
 
 
@@ -72,11 +67,11 @@ void FuncionNota(int id)
     switch(modo)
     {
     case MODO_DESAFIO:
-        MelodiaAgregarNota(&jugador,id);
+        MelodiaAgregarNota(&melodia_jugador,id);
         break;
 
     case MODO_MOZART:
-        resultado = MelodiaComprobarIngreso(&jugador, id);
+        resultado = MelodiaComprobarIngreso(&melodia_jugador, id);
         break;
 
     case MODO_SCHONBERG:

@@ -29,10 +29,12 @@
 
 #define ID_BOTON_GUARDAR 16
 
+#define ID_TOP 17
+
 
 
 #define CANTIDAD_BOTONES 16
-#define CANTIDAD_OBJETOS 17
+#define CANTIDAD_OBJETOS 18
 
 
 #endif // MACROS_H_INCLUDED

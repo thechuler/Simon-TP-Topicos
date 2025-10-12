@@ -119,6 +119,8 @@ botones[BotonesObtenerPorId(ID_BOTON_CONFIG)].esta_activo = 1;
 objetos[ID_BOTON_MODO].debe_Renderizar = 1;
 botones[BotonesObtenerPorId(ID_BOTON_MODO)].esta_activo = 1;
 
+objetos[ID_TOP].debe_Renderizar = 1;
+
 }
 
 

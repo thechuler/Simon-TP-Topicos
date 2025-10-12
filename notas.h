@@ -7,6 +7,7 @@
 #include "video.h"
 
 
+
 #define RESULTADO_GANO 1
 #define RESULTADO_PERDIO 2
 #define RESULTADO_ACERTO 3
@@ -34,7 +35,7 @@ void MelodiaAgregarAleatoria(melodia_t *,int);
 int MelodiaComprobarIngreso(melodia_t *,int);
 void MelodiaInicializar(melodia_t *, int ,unsigned );
 void MelodiaMostrarConsola(melodia_t *);
-void MelodiaGuardar(melodia_t *);
+void MelodiaGuardar(melodia_t *,char *);
 void MelodiaCargar(melodia_t *,const char* );
 void MelodiaAnimar(melodia_t *);
 void MelodiaGano(melodia_t *);

@@ -1,6 +1,6 @@
 #include "notas.h"
 #include "variables_globales.h"
-
+#include "main.h"
 
 //----------------Genera una nueva melodia y la inicializa-----------------//
 void MelodiaInicializar(melodia_t *melodia, int capacidad_inicial,unsigned nivel)
@@ -39,12 +39,14 @@ void MelodiaAgregarNota(melodia_t *melodia,int nota)
 
 
 
-void MelodiaReiniciar(melodia_t *melodia,int capacidad_inicial){
+void MelodiaReiniciar(melodia_t *melodia,int capacidad_inicial)
+{
 
- if (melodia->p != NULL) {
+    if (melodia->p != NULL)
+    {
         free(melodia->p);
     }
-   MelodiaInicializar(melodia,capacidad_inicial,melodia->nivel);
+    MelodiaInicializar(melodia,capacidad_inicial,melodia->nivel);
 }
 
 
@@ -83,8 +85,8 @@ int MelodiaComprobarIngreso(melodia_t *melodia,int input)
 
     if (melodia->p[melodia->nota_actual] == input)
     {
-         melodia->ultima_nota = melodia->nota_actual;
-         melodia->nota_actual++;
+        melodia->ultima_nota = melodia->nota_actual;
+        melodia->nota_actual++;
 
         if (melodia->nota_actual >= melodia->cant_notas)
         {
@@ -109,58 +111,80 @@ int MelodiaComprobarIngreso(melodia_t *melodia,int input)
 
 
 
-void MelodiaGanoAnimacion(){
-
- printf("\n\n GANASTE!\n");
- animando_fin_ronda = 1;
- esta_reproduciendo = 0;
-
-for(int i= 1 ;i<9;i++){
-    objetos[i].debe_animar = 1;
-}
-
-}
-
-
-void MelodiaPerdioAnimacion(){
-
- printf("\n\n PERDISTE!\n");
- animando_fin_ronda = 1;
- esta_reproduciendo = 0;
-
-for(int i= 1 ;i<9;i++){
-    objetos[i].debe_animar = 1;
-}
-
-}
-
-
-
-
-void MelodiaGano(melodia_t *melodia){
-if(modo == 1){
-   // corriendo =0; //VICTORIA MOZART
-}
-MelodiaAgregarAleatoria(melodia, 1);
-MelodiaMostrarConsola(melodia);
-esta_reproduciendo = 1;
-}
-
-void MelodiaPerdio(melodia_t *melodia){
-if(modo == 0){
-    MelodiaInicializar(melodia,5,8);
-    MelodiaAgregarAleatoria(melodia,3);
-}
-melodia->nota_actual = 0;
-MelodiaMostrarConsola(melodia);
-esta_reproduciendo = 1;
-}
-
-
-
-void MelodiaGuardar(melodia_t *melodia)
+void MelodiaGanoAnimacion()
 {
-    FILE *f = fopen("guardado.dat","wb");
+
+    printf("\n\n GANASTE!\n");
+    animando_fin_ronda = 1;
+    esta_reproduciendo = 0;
+
+    for(int i= 1 ; i<9; i++)
+    {
+        objetos[i].debe_animar = 1;
+    }
+
+}
+
+
+void MelodiaPerdioAnimacion()
+{
+
+    printf("\n\n PERDISTE!\n");
+    animando_fin_ronda = 1;
+    esta_reproduciendo = 0;
+
+    for(int i= 1 ; i<9; i++)
+    {
+        objetos[i].debe_animar = 1;
+    }
+
+}
+
+
+
+
+void MelodiaGano(melodia_t *melodia)
+{
+    if(modo == 1)
+    {
+        // corriendo =0; //VICTORIA MOZART
+    }
+
+    if(modo == MODO_SCHONBERG)
+    {
+        puntuacion++;
+        printf("\n %d",puntuacion);
+        MelodiaAgregarAleatoria(melodia, 1);
+        MelodiaMostrarConsola(melodia);
+        esta_reproduciendo = 1;
+    }
+
+}
+
+void MelodiaPerdio(melodia_t *melodia)
+{
+    if(modo == MODO_SCHONBERG)
+    {
+        jugador_actual.puntuacion_maxima = puntuacion;
+        JugadorControlarPuntuacion(&jugador_actual,RESULTADO_PERDIO);
+        JugadorGuardarTop();
+        puntuacion = 0;
+        MelodiaInicializar(melodia,5,8);
+        MelodiaAgregarAleatoria(melodia,3);
+    }
+    melodia->nota_actual = 0;
+    MelodiaMostrarConsola(melodia);
+    esta_reproduciendo = 1;
+}
+
+
+
+void MelodiaGuardar(melodia_t *melodia,char *nombre)
+{
+    char ruta[200];
+    sprintf(ruta, "%s.dat", nombre); // concatena ".dat" al nombre
+
+    FILE *f = fopen(ruta,"wb");
     if(!f) return;
 
     fwrite(melodia->p, sizeof(int), melodia->cant_notas, f);
@@ -172,15 +196,17 @@ void MelodiaGuardar(melodia_t *melodia)
 void MelodiaCargar(melodia_t *melodia,const char* ruta)
 {
     FILE *f = fopen(ruta, "rb");
-    if (!f) {
+    if (!f)
+    {
         printf("No se pudo abrir el archivo.\n");
         return;
     }
 
     int nota;
 
-    while (fread(&nota, sizeof(int), 1, f) == 1) {
-       MelodiaAgregarNota(&jugador,nota);
+    while (fread(&nota, sizeof(int), 1, f) == 1)
+    {
+        MelodiaAgregarNota(&melodia_jugador,nota);
     }
 
     fclose(f);
@@ -192,7 +218,8 @@ void MelodiaCargar(melodia_t *melodia,const char* ruta)
 void MelodiaAnimar(melodia_t *melodia)
 {
 
-    if (melodia->animacion_actual >= melodia->cant_notas) {
+    if (melodia->animacion_actual >= melodia->cant_notas)
+    {
         melodia->animacion_actual = 0;
         esta_reproduciendo = 0;
         return;
@@ -202,17 +229,19 @@ void MelodiaAnimar(melodia_t *melodia)
     imagen_t *img = &objetos[nota];
 
 
-    if (img->debe_animar == 0) {
+    if (img->debe_animar == 0)
+    {
         img->debe_animar = 1;
         img->frame_actual = 0;
         return;
     }
 
 
-if(img->frame_actual >= img->frames_totales - 1 ){
-     melodia->animacion_actual++;
-     SDL_Delay(300);
-}
+    if(img->frame_actual >= img->frames_totales - 1 )
+    {
+        melodia->animacion_actual++;
+        SDL_Delay(300);
+    }
 
 
 
@@ -233,15 +262,15 @@ int MelodiaFinalDeRonda(melodia_t *melodia,int resultado)
         return resultado;
     }
 
-  if (!animando_fin_ronda)
-{
-    printf("\n GO");
-    if (resultado == RESULTADO_GANO)
-        MelodiaGanoAnimacion();
-    else
-        MelodiaPerdioAnimacion();
-    return resultado;
-}
+    if (!animando_fin_ronda)
+    {
+        printf("\n GO");
+        if (resultado == RESULTADO_GANO)
+            MelodiaGanoAnimacion();
+        else
+            MelodiaPerdioAnimacion();
+        return resultado;
+    }
     else
     {
         if (!objetos[ID_ROJO].debe_animar)

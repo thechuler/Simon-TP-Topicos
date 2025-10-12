@@ -2,6 +2,7 @@
 
 int main(int argc, char *argv[])
 {
+
     srand(time(NULL));
     app_t juego;
     app_t ventana_auxiliar;
@@ -49,6 +50,11 @@ int main(int argc, char *argv[])
     SDL_StartTextInput();
 
     // ------------------------- TEXTURAS ------------------------ //
+
+    JugadoresCargar();
+    SDL_Texture *topJugadoresTex[1] ={ CrearTexturaTopJugadores(juego.renderer, font, jugadores_top, 5)};
+
+
     SDL_Texture *rosa[6] = {
         CargarTexturaDesdeBinario("img/rosa1.bin", juego.renderer),
         CargarTexturaDesdeBinario("img/rosa2.bin", juego.renderer),
@@ -63,6 +69,19 @@ int main(int argc, char *argv[])
         CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer),
     };
 
+   SDL_Color blanco = {255, 255, 255, 255};
+
+SDL_Texture *botonText[2] = {
+    CombinarTexturaConTexto(
+        juego.renderer,
+        CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer),
+        "JUGAR", "arial.ttf", 10, blanco
+    ),
+    CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer),
+};
+
+
+
     SDL_Texture *fondo = CargarTexturaDesdeBinario("img/fondo1.bin", juego.renderer);
     SDL_Texture *home = CargarTexturaDesdeBinario("img/home1.bin", juego.renderer);
     //---------------------------------------------------------------------------------//
@@ -70,7 +89,7 @@ int main(int argc, char *argv[])
 
     // ------------------------- OBJETOS ------------------------ //
     objetos[ID_FONDO] = ImagenCrear(&juego, 1, &fondo, PANTALLA_ALTO, PANTALLA_ANCHO, 0, 0, ANIMACION_NO, ID_FONDO);
-    objetos[ID_BOTON_MODO] = ImagenCrear(&juego, 2, boton, 100, 200, 0, 100, ANIMACION_RESET, ID_BOTON_MODO);
+    objetos[ID_BOTON_MODO] = ImagenCrear(&juego, 2, botonText, 100, 200, 0, 100, ANIMACION_RESET, ID_BOTON_MODO);
     objetos[ID_BOTON_CONFIG] = ImagenCrear(&juego, 2, boton, 100, 200, 0, 250, ANIMACION_RESET, ID_BOTON_CONFIG);
     objetos[ID_BOTON_VOLVER] = ImagenCrear(&juego, 1, &home, 100, 100, 600, 400, ANIMACION_RESET, ID_BOTON_VOLVER);
     objetos[ID_BOTON_SALIR] = ImagenCrear(&juego, 2, boton, 100, 200, 0, 400, ANIMACION_RESET, ID_BOTON_SALIR);
@@ -89,6 +108,9 @@ int main(int argc, char *argv[])
     objetos[ID_BOTON_MOZART] = ImagenCrear(&juego, 2, boton, 100, 200, 0, 250, ANIMACION_RESET, ID_BOTON_MOZART);
     objetos[ID_BOTON_DESAFIO] = ImagenCrear(&juego, 2, boton, 100, 200, 0, 400, ANIMACION_RESET, ID_BOTON_DESAFIO);
     objetos[ID_BOTON_GUARDAR] = ImagenCrear(&juego, 2, boton, 100, 200, 0, 400, ANIMACION_RESET, ID_BOTON_GUARDAR);
+
+
+    objetos[ID_TOP] = ImagenCrear(&juego, 1, topJugadoresTex, 200, 350, 400, 100, ANIMACION_RESET, ID_TOP);
     //------------------------------------------------------------//
 
 
@@ -136,10 +158,26 @@ int main(int argc, char *argv[])
                 }
                 else if (e.key.keysym.sym == SDLK_RETURN)
                 {
-                    printf("Texto ingresado: %s\n", texto);
 
-                    //si modo desafio el texto va a ser para ingresar el nombre del archivo
-                    // si el modo es schonberg el texto va a ser el nombre del jugador
+
+                    if(modo == MODO_SCHONBERG)
+                    {
+                        strcpy(jugador_actual.nombre,texto);
+                        printf("NUEVO JUGADOR: %s\n", texto);
+
+                        modo = MODO_SCHONBERG;
+                        MelodiaAnimar(&melodia);
+                        esta_reproduciendo = 1;
+                        PantallasSchonberg();
+                    }
+
+
+
+                    if(modo == MODO_DESAFIO){
+                     printf("NUEVO ARCHIVO: %s\n", texto);
+                      strcpy(nombre_archivo,texto);
+                    }
+
                     ingresoTexto = 0;
 
                     // Cerrar ventana auxiliar
@@ -155,6 +193,12 @@ int main(int argc, char *argv[])
             }
         }
 
+
+
+
+
+
+
         // ----- LOGICA DE RESULTADOS -----
         switch (resultado)
         {
@@ -162,14 +206,16 @@ int main(int argc, char *argv[])
             if (modo == MODO_SCHONBERG)
                 resultado = MelodiaFinalDeRonda(&melodia, RESULTADO_GANO);
             if (modo == MODO_MOZART)
-                resultado = MelodiaFinalDeRonda(&jugador, RESULTADO_GANO);
+                resultado = MelodiaFinalDeRonda(&melodia_jugador, RESULTADO_GANO);
             break;
 
         case RESULTADO_PERDIO:
-            if (modo == MODO_SCHONBERG)
+            if (modo == MODO_SCHONBERG){
                 resultado = MelodiaFinalDeRonda(&melodia, RESULTADO_PERDIO);
+                objetos[ID_TOP].texturas[0] = CrearTexturaTopJugadores(juego.renderer, font, jugadores_top, 5);
+            }
             if (modo == MODO_MOZART)
-                resultado = MelodiaFinalDeRonda(&jugador, RESULTADO_PERDIO);
+                resultado = MelodiaFinalDeRonda(&melodia_jugador, RESULTADO_PERDIO);
             break;
 
         default:
@@ -186,7 +232,7 @@ int main(int argc, char *argv[])
             }
 
             if (modo == MODO_MOZART)
-                MelodiaAnimar(&jugador);
+                MelodiaAnimar(&melodia_jugador);
             if (modo == MODO_SCHONBERG)
                 MelodiaAnimar(&melodia);
         }
@@ -207,7 +253,10 @@ int main(int argc, char *argv[])
         {
             if (objetos[i].frame_actual == 3)
                 Mix_PlayChannel(0, sonidos[i - ID_AZUL], 0);
+              //  SDL_Delay(1000);
         }
+
+
 
         // ----- CREAR VENTANA AUXILIAR -----
         if (ventana_abierta && modo == MODO_SCHONBERG)
@@ -216,6 +265,16 @@ int main(int argc, char *argv[])
             ingresoTexto = 1;
             ventana_abierta = 0;
         }
+
+             if (ventana_abierta && modo == MODO_DESAFIO)
+        {
+            CrearVentana(&ventana_auxiliar, "Ingresa el nombre del archivo?", 200, 200);
+            ingresoTexto = 1;
+            ventana_abierta = 0;
+        }
+
+
+
 
         // ----- RENDER TEXTO AUXILIAR -----
         if (ingresoTexto && ventana_auxiliar.ventana != NULL)

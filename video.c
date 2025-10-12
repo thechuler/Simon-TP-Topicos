@@ -37,6 +37,79 @@ void CrearVentana(app_t *aplicacion,const char *titulo,int ancho,int alto){
 
 
 
+
+SDL_Texture* CrearTexturaTopJugadores(SDL_Renderer *renderer, TTF_Font *font, jugador_t *jugadores, int cantidad) {
+    SDL_Color colorBlanco = {255, 255, 255, 255};
+    char buffer[1024]; // Para concatenar todo el texto
+    buffer[0] = '\0';
+
+    // Título
+    strcat(buffer, "TOP JUGADORES\n\n");
+
+    // Lista de jugadores
+    for (int i = 0; i < cantidad; i++) {
+        char linea[256];
+        snprintf(linea, sizeof(linea), "%d- %s : %d\n", i + 1, jugadores[i].nombre, jugadores[i].puntuacion_maxima);
+        strcat(buffer, linea);
+    }
+
+    // Crear superficie con todo el texto
+    SDL_Surface *superficieTexto = TTF_RenderText_Blended_Wrapped(font, buffer, colorBlanco, 400); // 400 es el ancho máximo
+    if (!superficieTexto) {
+        printf("Error al crear superficie de texto: %s\n", TTF_GetError());
+        return NULL;
+    }
+
+    // Crear textura desde la superficie
+    SDL_Texture *textoTex = SDL_CreateTextureFromSurface(renderer, superficieTexto);
+    SDL_FreeSurface(superficieTexto);
+
+    if (!textoTex) {
+        printf("Error al crear textura de texto: %s\n", SDL_GetError());
+        return NULL;
+    }
+
+    return textoTex;
+}
+
+
+
+
+
+
+SDL_Texture* CombinarTexturaConTexto(SDL_Renderer* renderer, SDL_Texture* base, const char* texto, const char* fuente, int tam, SDL_Color color)
+{
+    // Obtener tamaño del texto
+    TTF_Font* font = TTF_OpenFont(fuente, tam);
+    SDL_Surface* text_surface = TTF_RenderUTF8_Blended(font, texto, color);
+    TTF_CloseFont(font);
+
+    // Crear textura del texto
+    SDL_Texture* texto_tex = SDL_CreateTextureFromSurface(renderer, text_surface);
+    SDL_FreeSurface(text_surface);
+
+    // Crear una textura destino del mismo tamaño que la base
+    int w, h;
+    SDL_QueryTexture(base, NULL, NULL, &w, &h);
+    SDL_Texture* destino = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h);
+
+    // Establecer como render target
+    SDL_SetRenderTarget(renderer, destino);
+    SDL_RenderCopy(renderer, base, NULL, NULL);
+
+    // Renderizar el texto centrado
+    SDL_Rect rect_texto = { w/2 - text_surface->w/2, h/2 - text_surface->h/2, text_surface->w, text_surface->h };
+    SDL_RenderCopy(renderer, texto_tex, NULL, &rect_texto);
+
+    // Volver al render target normal
+    SDL_SetRenderTarget(renderer, NULL);
+
+    SDL_DestroyTexture(texto_tex);
+    return destino;
+}
+
+
+
 SDL_Texture* CargarTexturaDesdeBinario(const char* ruta, SDL_Renderer* renderer)
 {
     FILE* f = fopen(ruta, "rb");
