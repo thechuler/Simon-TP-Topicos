@@ -1,5 +1,7 @@
 #include "sonidos.h"
 
+
+//-----Carga un sonido a memoria desde archivo .wav
 Mix_Chunk* cargarSonido(const char *path)
 {
     Mix_Chunk *sonido;

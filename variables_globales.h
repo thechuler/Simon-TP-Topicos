@@ -8,19 +8,20 @@
 
 extern imagen_t objetos[CANTIDAD_OBJETOS];
 extern  boton_t botones[CANTIDAD_BOTONES];
-extern int corriendo;
+extern char corriendo;
 extern int modo;
 extern int resultado;
-extern int ventana_abierta;
+extern char ventana_abierta;
 extern int puntuacion;
 extern jugador_t jugadores_top[5];
 extern jugador_t jugador_actual;
 extern char animando_fin_ronda;
-extern int esta_reproduciendo;
+extern char esta_reproduciendo;
+extern int cantidad_notas;
 extern melodia_t melodia;
 extern melodia_t melodia_jugador;
-extern int pausa;
 extern char nombre_archivo[200];
+extern int duracion_sonido;
 
 
 #endif // VARIABLES_GLOBALES_H_INCLUDED

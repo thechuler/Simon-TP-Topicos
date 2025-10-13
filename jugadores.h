@@ -4,8 +4,8 @@
 
 
 typedef struct{
-char nombre[50];
-int puntuacion_maxima;
+char nombre[50]; //<---Nombre del jugador
+int puntuacion_maxima; //<----Puntuacion del jugador
 }jugador_t;
 
 

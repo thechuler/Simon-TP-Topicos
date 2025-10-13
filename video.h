@@ -21,8 +21,8 @@
 
 
 typedef struct {
-    SDL_Renderer *renderer;
-    SDL_Window *ventana;
+    SDL_Renderer *renderer; //<----Render de la ventana
+    SDL_Window *ventana; //<----Ventana
 } app_t;
 
 

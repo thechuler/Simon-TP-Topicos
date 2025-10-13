@@ -22,7 +22,7 @@ typedef struct{
 int *p;    //<---------Puntero del vector que guardara las notas.
 int nota_actual;      //<-----La nota a chequear actualmente
 int animacion_actual; // <---- La nota que se animara al mostrar la secuencia
-int ultima_nota;
+int ultima_nota;       //<---- Ultima nota comprobada de la melodia
 int cant_notas;       //<--  cantidad actual de notas
 int cant_total_notas;  //<-------- Capacidad total de notas en el vect dinamico
 unsigned nivel; // <--------- Nivel de la melodia (este unsigned despues lo usamos para generar numeros aleatorios desde 0 a nivel)
@@ -41,7 +41,6 @@ void MelodiaAnimar(melodia_t *);
 void MelodiaGano(melodia_t *);
 void MelodiaGanoAnimacion();
 void MelodiaReiniciar(melodia_t *,int);
-
 int MelodiaFinalDeRonda(melodia_t *, int);
 void MelodiaPerdio(melodia_t *);
 void MelodiaPerdioAnimacion();

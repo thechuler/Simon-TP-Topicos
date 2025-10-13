@@ -1,16 +1,18 @@
 #include "gui.h"
 #include "variables_globales.h"
 
+
+//-----Abre el explorador de archivos de windows y recupera la ruta seleccionada
 char* AbrirExploradorYRecuperarRuta(void) {
-    OPENFILENAME ofn;       //z----- Estructura del dialogo, esta en windows.h
-    char szFile[260];       //<---- Buffer donde guardaria la ruta
+    OPENFILENAME ofn;       //<----- Estructura del dialogo, esta en windows.h
+    char szFile[260];       //<----donde se guardaria la ruta
 
     ZeroMemory(&ofn, sizeof(ofn));
-    ZeroMemory(szFile, sizeof(szFile));      //<------ Limpia para evitar basura
+    ZeroMemory(szFile, sizeof(szFile));  //<------ Limpia para evitar basura
 
     ofn.lStructSize = sizeof(ofn); //<-----Tamaño de la structura
     ofn.hwndOwner = NULL;   // Ventana padre (NULL = consola)
-    ofn.lpstrFile = szFile; //<----donde guarda la ruta
+    ofn.lpstrFile = szFile;
     ofn.lpstrFile[0] = '\0'; //<--- Lo inicializa vacio
     ofn.nMaxFile = sizeof(szFile);  //<--- tam maximo
     ofn.lpstrFilter =
@@ -23,13 +25,13 @@ char* AbrirExploradorYRecuperarRuta(void) {
     ofn.lpstrFileTitle = NULL;  //<--- No me interesa guardar solo el nombre del archivo
     ofn.nMaxFileTitle = 0;
 
-    ofn.lpstrInitialDir = NULL; //<----  Empieza en el directorio actual
+    ofn.lpstrInitialDir = "saves"; //<----  Empieza en la carpeta saves
 
     ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST; //<------- condicional, el archivo debe existir al igual que la ruta
 
 
     if (GetOpenFileName(&ofn)) {   //<--- Abre la ventana y si el user eligio un archivo lo guarda
-        char* ruta = (char*)malloc(strlen(ofn.lpstrFile) + 1);
+        char* ruta = (char*)malloc(strlen(ofn.lpstrFile) + 1); //<---Reserva memoria, se liberaria cuando se llame a la func
         if (ruta) strcpy(ruta, ofn.lpstrFile);
         return ruta;
     } else {
@@ -39,57 +41,56 @@ char* AbrirExploradorYRecuperarRuta(void) {
 }
 
 
-//-------Comprueba si un boton fue clickeado y activa su funcion asociada-----//
-int BotonesActivosComprobarInteraccion( int x, int y)
+//-------Comprueba si un boton fue clickeado y activa su funcion asociada
+void BotonesActivosComprobarInteraccion( int x, int y)
 {
     SDL_Point click = {x, y};
 
-    for(int i = 0; i < CANTIDAD_BOTONES; i++)
+    for(int i = 0; i < CANTIDAD_BOTONES; i++) //<---Comprueba todos los botones 1 por 1
     {
-        if(botones[i].esta_activo)
+        if(botones[i].esta_activo) //<-- Solo si el boton esta activo
         {
-            if(SDL_PointInRect(&click,&botones[i].imagen->configs))
+            if(SDL_PointInRect(&click,&botones[i].imagen->configs)) //<-- Si el click fue en la misma pos que el boton
             {
-                botones[i].imagen->frame_actual =0;
-                botones[i].imagen->debe_animar = 1;
-                if(i>=ID_FONDO && i<=ID_BLANCO){
-                botones[i].accion(botones[i].id);
+                botones[i].imagen->frame_actual =0; //<--se reinicia su frame
+                botones[i].imagen->debe_animar = 1; //<--- Anima el boton
+                if(i>=ID_FONDO && i<=ID_BLANCO){ //<---Si son las notas,
+                botones[i].accion(botones[i].id); //<--Les pasa como parametro su id
                 }else{
-                botones[i].accion();
+                botones[i].accion(); //<--Si no simplemente llama a su funcion
                 }
-                return  0;
+                return ;
             }
         }
     }
 
-    return -1;
 }
 
 
 
 
-//-------Limpia todos los objetos de la pantalla-----//
+//-------Limpia todos los objetos de la pantalla
 void PantallasLimpiar()
 {
     for(int i = 0; i < CANTIDAD_OBJETOS; i++)
     {
-        objetos[i].debe_Renderizar = 0;
-        objetos[i].debe_animar = 0;
+        objetos[i].debe_Renderizar = 0; //<---Desactiva render
+        objetos[i].debe_animar = 0;  //<---Y animacion
     }
 }
 
 
-//----Bloquea todos los botones de la pantalla----//
+//--------Bloquea todos los botones de la pantalla
 void PantallaBloquearBotones()
 {
     for(int i = 0; i < CANTIDAD_BOTONES; i++)
     {
-        botones[i].esta_activo = 0;
+        botones[i].esta_activo = 0; //<---Desactiva la funcionalidad de los botones
     }
 }
 
 
-//------Obtiene un boton por su id asignada-----//
+//--------Obtiene un boton por su id asignada
 int BotonesObtenerPorId(int id)
 {
     for(int i=0; i<CANTIDAD_BOTONES; i++)
@@ -105,11 +106,12 @@ int BotonesObtenerPorId(int id)
 
 
 
-//------------Setea el menu principal-----------------//
+//-------------Setea el menu principal
 void PantallasMenuPrincipal(){
-PantallaBloquearBotones();
-PantallasLimpiar();
+PantallaBloquearBotones(); //<--- Bloquea botones
+PantallasLimpiar();   //<---Limpia render
 
+//Objetos en pantalla:
 objetos[ID_BOTON_SALIR].debe_Renderizar = 1;
 botones[BotonesObtenerPorId(ID_BOTON_SALIR)].esta_activo = 1;
 
@@ -126,11 +128,49 @@ objetos[ID_TOP].debe_Renderizar = 1;
 
 
 
-//------------Setea la pantalla modos-----------------//
+//-----Setea la pantalla configs
+void PantallasConfigs(){
+PantallaBloquearBotones();
+PantallasLimpiar();
+
+//Objetos en pantalla:
+objetos[ID_FONDO].debe_Renderizar = 1;
+
+objetos[ID_DURACION].debe_Renderizar = 1;
+objetos[ID_NOTAS].debe_Renderizar = 1;
+
+
+objetos[ID_SUMAR_NOTAS].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_SUMAR_NOTAS)].esta_activo = 1;
+
+
+objetos[ID_RESTAR_NOTAS].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_RESTAR_NOTAS)].esta_activo = 1;
+
+
+objetos[ID_SUMAR_DURACION].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_SUMAR_DURACION)].esta_activo = 1;
+
+
+objetos[ID_RESTAR_DURACION].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_RESTAR_DURACION)].esta_activo = 1;
+
+
+
+objetos[ID_BOTON_VOLVER].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_BOTON_VOLVER)].esta_activo = 1;
+
+}
+
+
+
+//---Setea la pantalla Modos de juego
 void PantallasModos(){
 PantallaBloquearBotones();
 PantallasLimpiar();
 
+
+//Objetos en pantalla:
 objetos[ID_FONDO].debe_Renderizar = 1;
 
 objetos[ID_BOTON_MOZART].debe_Renderizar = 1;
@@ -151,11 +191,14 @@ botones[BotonesObtenerPorId(ID_BOTON_VOLVER)].esta_activo = 1;
 
 
 
+
+
 //------------Setea la pantalla schonberg-----------------//
 void PantallasSchonberg(){
 PantallaBloquearBotones();
 PantallasLimpiar();
 
+//Objetos en pantalla:
 objetos[ID_AZUL].debe_Renderizar = 1;
 botones[BotonesObtenerPorId(ID_AZUL)].esta_activo = 1;
 
@@ -183,14 +226,18 @@ botones[BotonesObtenerPorId(ID_BLANCO)].esta_activo = 1;
 
 objetos[ID_BOTON_VOLVER].debe_Renderizar = 1;
 botones[BotonesObtenerPorId(ID_BOTON_VOLVER)].esta_activo = 1;
+
+
+objetos[ID_PUNTAJE].debe_Renderizar = 1;
 }
 
 
-//------------Setea la pantalla schonberg-----------------//
+//------------Setea la pantalla Desafio
 void PantallasDesafio(){
 PantallaBloquearBotones();
 PantallasLimpiar();
 
+//Objetos en pantalla:
 objetos[ID_AZUL].debe_Renderizar = 1;
 botones[BotonesObtenerPorId(ID_AZUL)].esta_activo = 1;
 
@@ -224,10 +271,13 @@ botones[BotonesObtenerPorId(ID_BOTON_VOLVER)].esta_activo = 1;
 }
 
 
+
+//---------Setea la pantalla Mozart
 void PantallasMozart(){
 PantallaBloquearBotones();
 PantallasLimpiar();
 
+//Objetos en pantalla:
 objetos[ID_AZUL].debe_Renderizar = 1;
 botones[BotonesObtenerPorId(ID_AZUL)].esta_activo = 1;
 

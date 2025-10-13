@@ -29,12 +29,24 @@
 
 #define ID_BOTON_GUARDAR 16
 
-#define ID_TOP 17
+#define ID_SUMAR_NOTAS 17
+#define ID_RESTAR_NOTAS 18
+#define ID_SUMAR_DURACION 19
+#define ID_RESTAR_DURACION 20
+
+#define ID_NOTAS 21
+
+#define ID_DURACION 22
+
+#define ID_TOP 23
+
+#define ID_PUNTAJE 24
 
 
 
-#define CANTIDAD_BOTONES 16
-#define CANTIDAD_OBJETOS 18
+
+#define CANTIDAD_BOTONES 20
+#define CANTIDAD_OBJETOS 25
 
 
 #endif // MACROS_H_INCLUDED
