@@ -38,18 +38,14 @@ int main(int argc, char *argv[])
 
 
 
-
-
-
-
-    CrearVentana(&juego, "Simon", 700, 500);  //<---------Creacion de ventana
+    CrearVentana(&juego, "Simi-Simi-MON!", 700, 500);  //<---------Creacion de ventana
 
 
 
 
 
     // ------------------------- FUENTE ------------------------ //
-    TTF_Font *font = TTF_OpenFont("arial.ttf", 24);
+    TTF_Font *font = TTF_OpenFont("Symtext.ttf",34);
     if (!font)
     {
         printf("Error al cargar fuente: %s\n", TTF_GetError());
@@ -74,70 +70,183 @@ int main(int argc, char *argv[])
     SDL_Texture *topJugadoresTex[1] = { CrearTexturaTopJugadores(juego.renderer, font, jugadores_top, 5)}; //<--- Textura top
 
 
-    SDL_Texture *rosa[6] =
+
+
+
+
+    //-------------------------COLORES--------------------------//
+
+    SDL_Color colores_notas[9] =
     {
-        CargarTexturaDesdeBinario("img/rosa1.bin", juego.renderer),
-        CargarTexturaDesdeBinario("img/rosa2.bin", juego.renderer),
-        CargarTexturaDesdeBinario("img/rosa3.bin", juego.renderer),     //<------Textura Notas
-        CargarTexturaDesdeBinario("img/rosa4.bin", juego.renderer),
-        CargarTexturaDesdeBinario("img/rosa5.bin", juego.renderer),
-        CargarTexturaDesdeBinario("img/rosa6.bin", juego.renderer),
+        {255, 0, 125, 255}, // Rosa
+        {60, 100, 200, 255},   // Azul
+        {90, 170, 110, 255},   // verde
+        {140, 25, 25, 255},   // Rojo
+        {255, 255, 40, 255}, // amarillo
+        {185, 40, 255, 255}, // violeta
+        {255, 157, 40, 255}, // naranja
+        {78, 78, 78, 255}, // negro
     };
 
-    SDL_Texture *boton[2] =
-    {
-        CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer),
-        CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer),    //<--- Textura boton basico
-    };
 
-    SDL_Color color = {255, 255, 255, 255};
 
-    SDL_Texture *botonText[2] =
+
+//-----------------------------------------------------------//
+
+
+
+
+//--------------------------------CREACION DE TEXTURAS-------------------------------//
+
+
+    SDL_Texture *texturas_azul[6];
+    CargarAnimaciondesdeBinario("slime",&colores_notas[ID_AZUL],texturas_azul,juego.renderer);
+
+    SDL_Texture *texturas_verde[6];
+    CargarAnimaciondesdeBinario("slime",&colores_notas[ID_VERDE],texturas_verde,juego.renderer);
+
+    SDL_Texture *texturas_rojo[6];
+    CargarAnimaciondesdeBinario("slime",&colores_notas[ID_ROJO],texturas_rojo,juego.renderer);
+
+    SDL_Texture *texturas_amarillo[6];
+    CargarAnimaciondesdeBinario("slime",&colores_notas[ID_AMARILLO],texturas_amarillo,juego.renderer);
+
+    SDL_Texture *texturas_violeta[6];
+    CargarAnimaciondesdeBinario("slime",&colores_notas[ID_VIOLETA],texturas_violeta,juego.renderer);
+
+    SDL_Texture *texturas_naranja[6];
+    CargarAnimaciondesdeBinario("slime",&colores_notas[ID_NARANJA],texturas_naranja,juego.renderer);
+
+    SDL_Texture *texturas_negro[6];
+    CargarAnimaciondesdeBinario("slime",&colores_notas[ID_NEGRO],texturas_negro,juego.renderer);
+
+    SDL_Texture *texturas_blanco[6];
+    CargarAnimaciondesdeBinario("slime",NULL,texturas_blanco,juego.renderer);
+
+
+    SDL_Texture *botonJugar[2] =
     {
         CombinarTexturaConTexto(
             juego.renderer,
-            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer),
-            "JUGAR", "arial.ttf", 10, color
+            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+            "Jugar", "Symtext.ttf", 14, colores_notas[0]
         ),
-        CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer),
+        CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
     };
 
 
-    SDL_Texture *puntajeText[1] =
+    SDL_Texture *botonConfigs[2] =
     {
         CombinarTexturaConTexto(
             juego.renderer,
-            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer), //<--- Textura puntaje
-            "0", "arial.ttf", 10, color
+            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+            "Configs", "Symtext.ttf", 11, colores_notas[0]
         ),
+        CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
     };
 
-
-
-    SDL_Texture *cant_notas[1] =
+    SDL_Texture *botonSalir[2] =
     {
         CombinarTexturaConTexto(
             juego.renderer,
-            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer),    //<--- Textura config
-            "NOTAS: 3", "arial.ttf", 10, color
+            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+            "Salir", "Symtext.ttf", 14, colores_notas[0]
         ),
+        CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
     };
 
 
-
-    SDL_Texture *duracion[1] =
+    SDL_Texture *botonSchonberg[2] =
     {
         CombinarTexturaConTexto(
             juego.renderer,
-            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer),
-            "Duracion: 2000 ms", "arial.ttf", 10, color
+            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+            "Schonberg", "Symtext.ttf", 8, colores_notas[0]
         ),
+        CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
     };
 
 
-    SDL_Texture *fondo = CargarTexturaDesdeBinario("img/fondo1.bin", juego.renderer);
-    SDL_Texture *home = CargarTexturaDesdeBinario("img/home1.bin", juego.renderer);
-    //---------------------------------------------------------------------------------//
+    SDL_Texture *botonMozart[2] =
+    {
+        CombinarTexturaConTexto(
+            juego.renderer,
+            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+            "Mozart", "Symtext.ttf", 10, colores_notas[0]
+        ),
+        CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
+    };
+
+    SDL_Texture *botonDesafio[2] =
+    {
+        CombinarTexturaConTexto(
+            juego.renderer,
+            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+            "Desafio", "Symtext.ttf", 10, colores_notas[0]
+        ),
+        CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
+    };
+
+    SDL_Texture *botonGuardar[2] =
+    {
+        CombinarTexturaConTexto(
+            juego.renderer,
+            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+            "Guardar", "Symtext.ttf", 10, colores_notas[0]
+        ),
+        CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
+    };
+
+
+    SDL_Texture *botonSumar[2] =
+    {
+        CombinarTexturaConTexto(
+            juego.renderer,
+            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+            "+", "Symtext.ttf", 25, colores_notas[0]
+        ),
+        CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
+    };
+
+
+    SDL_Texture *botonRestar[2] =
+    {
+        CombinarTexturaConTexto(
+            juego.renderer,
+            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+            "-", "Symtext.ttf", 25, colores_notas[0]
+        ),
+        CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
+    };
+
+    SDL_Texture *puntajeText =
+        CombinarTexturaConTexto(
+            juego.renderer,
+            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL), //<--- Textura puntaje
+            "0", "Symtext.ttf", 10, colores_notas[0]);
+
+
+    SDL_Texture *cant_notas =
+        CombinarTexturaConTexto(
+            juego.renderer,
+            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),    //<--- Textura config
+            "NOTAS: 3", "Symtext.ttf", 7, colores_notas[0]);
+
+
+    SDL_Texture *botonDuracion =
+        CombinarTexturaConTexto(
+            juego.renderer,
+            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+            " ", "Symtext.ttf", 6, colores_notas[0]);
+
+
+
+    SDL_Texture *fondo = CargarTexturaDesdeBinario("img/fondo1.bin", juego.renderer,NULL);
+    SDL_Texture *home = CargarTexturaDesdeBinario("img/home1.bin", juego.renderer,NULL);
+
+
+
+  //---------------------------------------------------------------------------------//
 
 
 
@@ -147,39 +256,43 @@ int main(int argc, char *argv[])
 
     // ------------------------- OBJETOS ------------------------ //
     objetos[ID_FONDO] = ImagenCrear(&juego, 1, &fondo, PANTALLA_ALTO, PANTALLA_ANCHO, 0, 0, ANIMACION_NO, ID_FONDO);
-    objetos[ID_BOTON_MODO] = ImagenCrear(&juego, 2, botonText, 100, 200, 0, 100, ANIMACION_RESET, ID_BOTON_MODO);
-    objetos[ID_BOTON_CONFIG] = ImagenCrear(&juego, 2, boton, 100, 200, 0, 250, ANIMACION_RESET, ID_BOTON_CONFIG);
-    objetos[ID_BOTON_VOLVER] = ImagenCrear(&juego, 1, &home, 100, 100, 600, 400, ANIMACION_RESET, ID_BOTON_VOLVER);
-    objetos[ID_BOTON_SALIR] = ImagenCrear(&juego, 2, boton, 100, 200, 0, 400, ANIMACION_RESET, ID_BOTON_SALIR);
+    objetos[ID_BOTON_MODO] = ImagenCrear(&juego, 2, botonJugar, 100, 200, 50, 150, ANIMACION_RESET, ID_BOTON_MODO);
+    objetos[ID_BOTON_CONFIG] = ImagenCrear(&juego, 2, botonConfigs, 100, 200, 50, 250, ANIMACION_RESET, ID_BOTON_CONFIG);
+    objetos[ID_BOTON_VOLVER] = ImagenCrear(&juego, 1, &home, 100, 100, 550, 360, ANIMACION_RESET, ID_BOTON_VOLVER);
+    objetos[ID_BOTON_SALIR] = ImagenCrear(&juego, 2, botonSalir, 100, 200, 50, 350, ANIMACION_RESET, ID_BOTON_SALIR);
 
-    objetos[ID_AZUL] = ImagenCrear(&juego, 6, rosa, 160, 120, 125, 180, ANIMACION_RESET, ID_AZUL);
-    objetos[ID_VERDE] = ImagenCrear(&juego, 6, rosa, 160, 120, 235, 180, ANIMACION_RESET, ID_VERDE);
-    objetos[ID_ROJO] = ImagenCrear(&juego, 6, rosa, 160, 120, 345, 180, ANIMACION_RESET, ID_ROJO);
-    objetos[ID_AMARILLO] = ImagenCrear(&juego, 6, rosa, 160, 120, 455, 180, ANIMACION_RESET, ID_AMARILLO);
+    objetos[ID_AZUL] = ImagenCrear(&juego, 6, texturas_azul, 160, 120, 125, 100, ANIMACION_RESET, ID_AZUL);
+    objetos[ID_VERDE] = ImagenCrear(&juego, 6, texturas_verde, 160, 120, 235, 100, ANIMACION_RESET, ID_VERDE);
+    objetos[ID_ROJO] = ImagenCrear(&juego, 6, texturas_rojo, 160, 120, 345, 100, ANIMACION_RESET, ID_ROJO);
+    objetos[ID_AMARILLO] = ImagenCrear(&juego, 6, texturas_amarillo, 160, 120, 455, 100, ANIMACION_RESET, ID_AMARILLO);
 
-    objetos[ID_VIOLETA] = ImagenCrear(&juego, 6, rosa, 160, 120, 125, 260, ANIMACION_RESET, ID_VIOLETA);
-    objetos[ID_NARANJA] = ImagenCrear(&juego, 6, rosa, 160, 120, 235, 260, ANIMACION_RESET, ID_NARANJA);
-    objetos[ID_NEGRO] = ImagenCrear(&juego, 6, rosa, 160, 120, 345, 260, ANIMACION_RESET, ID_NEGRO);
-    objetos[ID_BLANCO] = ImagenCrear(&juego, 6, rosa, 160, 120, 455, 260, ANIMACION_RESET, ID_BLANCO);
+    objetos[ID_VIOLETA] = ImagenCrear(&juego, 6, texturas_violeta, 160, 120, 125, 180, ANIMACION_RESET, ID_VIOLETA);
+    objetos[ID_NARANJA] = ImagenCrear(&juego, 6, texturas_naranja, 160, 120, 235, 180, ANIMACION_RESET, ID_NARANJA);
+    objetos[ID_NEGRO] = ImagenCrear(&juego, 6, texturas_negro, 160, 120, 345, 180, ANIMACION_RESET, ID_NEGRO);
+    objetos[ID_BLANCO] = ImagenCrear(&juego, 6, texturas_blanco, 160, 120, 455, 180, ANIMACION_RESET, ID_BLANCO);
 
-    objetos[ID_BOTON_SCHONBERG] = ImagenCrear(&juego, 2, boton, 100, 200, 0, 100, ANIMACION_RESET, ID_BOTON_SCHONBERG);
-    objetos[ID_BOTON_MOZART] = ImagenCrear(&juego, 2, boton, 100, 200, 0, 250, ANIMACION_RESET, ID_BOTON_MOZART);
-    objetos[ID_BOTON_DESAFIO] = ImagenCrear(&juego, 2, boton, 100, 200, 0, 400, ANIMACION_RESET, ID_BOTON_DESAFIO);
-    objetos[ID_BOTON_GUARDAR] = ImagenCrear(&juego, 2, boton, 100, 200, 0, 400, ANIMACION_RESET, ID_BOTON_GUARDAR);
+    objetos[ID_BOTON_SCHONBERG] = ImagenCrear(&juego, 2, botonSchonberg, 100, 200, 50, 150, ANIMACION_RESET, ID_BOTON_SCHONBERG);
+    objetos[ID_BOTON_MOZART] = ImagenCrear(&juego, 2, botonMozart, 100, 200, 50, 250, ANIMACION_RESET, ID_BOTON_MOZART);
+    objetos[ID_BOTON_DESAFIO] = ImagenCrear(&juego, 2, botonDesafio, 100, 200, 50, 350, ANIMACION_RESET, ID_BOTON_DESAFIO);
+    objetos[ID_BOTON_GUARDAR] = ImagenCrear(&juego, 2, botonGuardar, 100, 200, 500, 0, ANIMACION_RESET, ID_BOTON_GUARDAR);
 
-    objetos[ID_TOP] = ImagenCrear(&juego, 1, topJugadoresTex, 200, 350, 400, 100, ANIMACION_RESET, ID_TOP);
-    objetos[ID_PUNTAJE] = ImagenCrear(&juego, 1, puntajeText, 100, 150, 0, 0, ANIMACION_RESET, ID_PUNTAJE);
+    objetos[ID_TOP] = ImagenCrear(&juego, 1, topJugadoresTex, 250, 200, 480, 150, ANIMACION_RESET, ID_TOP);
+    objetos[ID_PUNTAJE] = ImagenCrear(&juego, 1, &puntajeText, 100, 150, 0, 0, ANIMACION_RESET, ID_PUNTAJE);
 
-    objetos[ID_SUMAR_NOTAS] = ImagenCrear(&juego, 1, boton, 100, 50, 300, 250, ANIMACION_RESET, ID_SUMAR_NOTAS);
-    objetos[ID_RESTAR_NOTAS] = ImagenCrear(&juego, 1, boton, 100, 50, 350, 250, ANIMACION_RESET, ID_RESTAR_NOTAS);
+    objetos[ID_SUMAR_NOTAS] = ImagenCrear(&juego, 1, botonSumar, 100, 50, 570, 250, ANIMACION_RESET, ID_SUMAR_NOTAS);
+    objetos[ID_RESTAR_NOTAS] = ImagenCrear(&juego, 1, botonRestar, 100, 50, 500, 250, ANIMACION_RESET, ID_RESTAR_NOTAS);
 
-    objetos[ID_SUMAR_DURACION] = ImagenCrear(&juego, 1, boton, 100, 50, 300, 100, ANIMACION_RESET, ID_SUMAR_DURACION);
-    objetos[ID_RESTAR_DURACION] = ImagenCrear(&juego, 1, boton, 100, 50, 350, 100, ANIMACION_RESET, ID_RESTAR_DURACION);
+    objetos[ID_SUMAR_DURACION] = ImagenCrear(&juego, 1, botonSumar, 100, 50, 570, 150, ANIMACION_RESET, ID_SUMAR_DURACION);
+    objetos[ID_RESTAR_DURACION] = ImagenCrear(&juego, 1, botonRestar, 100, 50, 500,150, ANIMACION_RESET, ID_RESTAR_DURACION);
 
-    objetos[ID_DURACION] = ImagenCrear(&juego, 1, duracion, 100, 200, 0, 100, ANIMACION_RESET, ID_DURACION);
-    objetos[ID_NOTAS] = ImagenCrear(&juego, 1, cant_notas, 100, 200, 0, 250, ANIMACION_RESET, ID_NOTAS);
+    objetos[ID_DURACION] = ImagenCrear(&juego, 1,&botonDuracion, 100, 400, 50, 150, ANIMACION_RESET, ID_DURACION);
+    objetos[ID_NOTAS] = ImagenCrear(&juego, 1, &cant_notas, 100, 400, 50, 250, ANIMACION_RESET, ID_NOTAS);
+    objetos[ID_MARCO_PUNTAJE] = ImagenCrear(&juego, 1,&cant_notas, 100, 400, 50, 250, ANIMACION_RESET, ID_MARCO_PUNTAJE);
+
 
     //---------------------------------------------------------------------------------------------------------------//
+
+
 
 
 
@@ -274,6 +387,7 @@ int main(int argc, char *argv[])
                     if(modo == MODO_DESAFIO)   //<-------- En el modo DESAFIO el texto es el nombre del archivo
                     {
                         printf("NUEVO ARCHIVO: %s\n", texto);
+                        PantallasDesafio();
                         strcpy(nombre_archivo,texto);
                     }
 
@@ -311,7 +425,7 @@ int main(int argc, char *argv[])
 
                 char texto_puntaje[20];       //<--------Actualiza el render de puntuacion
                 sprintf(texto_puntaje, "%d", puntuacion + 1);
-                objetos[ID_PUNTAJE].texturas[0] =  CombinarTexturaConTexto(juego.renderer,CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer),texto_puntaje, "arial.ttf", 10, color);
+                objetos[ID_PUNTAJE].texturas[0] =  CombinarTexturaConTexto(juego.renderer,CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),texto_puntaje, "arial.ttf", 10, colores_notas[0]);
                 resultado = MelodiaFinalDeRonda(&melodia, RESULTADO_GANO); //<----Comprueba Siguiente estado
             }
 
@@ -375,6 +489,8 @@ int main(int argc, char *argv[])
                     PantallasSchonberg();
             }
         }
+
+
         //------------------------------------------------------------------------//
 
 
@@ -390,7 +506,7 @@ int main(int argc, char *argv[])
             {
                 Mix_PlayChannel(0, sonidos[i], 0); //<--- Reproduce su sonido
 
-
+/*
                 if(cantidad_notas >1)  //<--- Si hay mas de 1 nota se aplica una reduccion en el tiempo total
                 {
                     SDL_Delay(duracion_sonido - ((duracion_sonido*0.03))* melodia.cant_notas ); //<-- -3% por nota
@@ -399,7 +515,7 @@ int main(int argc, char *argv[])
                 {
                     SDL_Delay(duracion_sonido); //<--- Si hay solo 1, simplemente no se aplica
                 }
-
+*/
             }
 
         }
@@ -413,7 +529,7 @@ int main(int argc, char *argv[])
         // ------------------------ CREAR VENTANA AUXILIAR ------------------------------------//
         if (ventana_abierta && modo == MODO_SCHONBERG)
         {
-            CrearVentana(&ventana_auxiliar, "Cual es tu nombre?", 200, 200);
+            CrearVentana(&ventana_auxiliar, "Cual es tu nombre?", 400, 200);
             ingresoTexto = 1;
             ventana_abierta = 0;
         }
@@ -421,7 +537,7 @@ int main(int argc, char *argv[])
 
         if (ventana_abierta && modo == MODO_DESAFIO)
         {
-            CrearVentana(&ventana_auxiliar, "Ingresa el nombre del archivo", 200, 200);
+            CrearVentana(&ventana_auxiliar, "Ingresa el nombre del archivo", 400, 200);
             ingresoTexto = 1;
             ventana_abierta = 0;
         }
@@ -433,7 +549,7 @@ int main(int argc, char *argv[])
             SDL_SetRenderDrawColor(ventana_auxiliar.renderer, 0, 0, 0, 255);
             SDL_RenderClear(ventana_auxiliar.renderer);
 
-            SDL_Surface *superficieTexto = TTF_RenderText_Blended(font, texto, color);
+            SDL_Surface *superficieTexto = TTF_RenderText_Blended(font, texto, colores_notas[0]);
             if (superficieTexto)
             {
                 SDL_Texture *textoTex = SDL_CreateTextureFromSurface(ventana_auxiliar.renderer, superficieTexto);
@@ -462,6 +578,8 @@ int main(int argc, char *argv[])
         SDL_Delay(100); //<--- Pequeño delay entre frame y frame para las animaciones
     }
     //---------------------------------------------//
+
+
 
 
 

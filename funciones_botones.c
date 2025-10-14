@@ -90,7 +90,7 @@ void FuncionBotonSchonberg()
     MelodiaAgregarAleatoria(&melodia,3);
     MelodiaMostrarConsola(&melodia);
     ventana_abierta = 1; //<--Abre ventana auxiliar
-    PantallasSchonberg();
+    modo = MODO_SCHONBERG;
     PantallaBloquearBotones();
 }
 
@@ -99,7 +99,6 @@ void FuncionBotonSchonberg()
 void FuncionBotonDesafio()
 {
     MelodiaInicializar(&melodia_jugador, 3, 8);
-    PantallasDesafio();
     modo = MODO_DESAFIO; //<---Activa el modo desafio
     ventana_abierta = 1; //<---Activa la ventana auxiliar
 }

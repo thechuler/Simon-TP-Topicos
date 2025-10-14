@@ -13,9 +13,9 @@ char animando_fin_ronda = 0; //<-----Si esta o no animando el final de una ronda
 char nombre_archivo[200]; //<-------Nombre del archivo que guardara la melodia.
 
 jugador_t jugadores_top[5] = {
-    {"DUM ->?",0},
-    {"ComoNoPromocioneD:<",0},
-    {"Lucas CaminaCielo",0},      //<----------Valores default del top 5 mejores jugadores
+    {"DUM ->?",14},
+    {"Compi",0},
+    {"Cami",0},      //<----------Valores default del top 5 mejores jugadores
     {"ShuleTk",0},
     {"Jair17",0},
     };

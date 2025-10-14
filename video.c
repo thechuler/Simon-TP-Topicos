@@ -44,17 +44,17 @@ void CrearVentana(app_t *aplicacion,const char *titulo,int ancho,int alto)
 SDL_Texture* CrearTexturaTopJugadores(SDL_Renderer *renderer, TTF_Font *font, jugador_t *jugadores, int cantidad)
 {
 
-    SDL_Color colorBlanco = {255, 255, 255, 255};  //<--------Color de la textura
+    SDL_Color colorBlanco = {255, 0, 125, 255};  //<--------Color de la textura
     char buffer[1024]; //<--------- Para juntar todo el texto
     buffer[0] = '\0';
 
-    strcat(buffer, "TOP JUGADORES\n\n"); //<-------Titulo
+    strcat(buffer, "TOP JUGADORES \n\n"); //<-------Titulo
 
 
     for (int i = 0; i < cantidad; i++)   //<------- Obtiene la lista de jugadores y su puntuacion
     {
         char linea[256];
-        snprintf(linea, sizeof(linea), "%d- %s : %d\n", i + 1, jugadores[i].nombre, jugadores[i].puntuacion_maxima);
+        snprintf(linea, sizeof(linea), "  %d- %s : %d\n", i + 1, jugadores[i].nombre, jugadores[i].puntuacion_maxima);
         strcat(buffer, linea);
     }
 
@@ -78,6 +78,9 @@ SDL_Texture* CrearTexturaTopJugadores(SDL_Renderer *renderer, TTF_Font *font, ju
 
     return textoTex;
 }
+
+
+
 
 
 
@@ -122,14 +125,16 @@ SDL_Texture* CombinarTexturaConTexto(SDL_Renderer* renderer, SDL_Texture* base, 
 
 
 
-//----Obtiene los valores RGB desde un archivo .Bin y los convierte en una textura renderizable por SDL
-SDL_Texture* CargarTexturaDesdeBinario(const char* ruta, SDL_Renderer* renderer)
-{
+
+
+//----Obtiene los valores RGB desde un archivo .Bin;
+void CargarPixelesDesdeBinario(const char* ruta,imagen_cruda_t *img){
+
     FILE* f = fopen(ruta, "rb"); //<-----Abre el archivo por su ruta
     if (!f)
     {
         printf("No se pudo abrir %s\n", ruta);
-        return NULL;
+        return ;
     }
 
     int ancho, alto; //<------Las primeras 2 posiciones del archivo son el alto y el ancho
@@ -142,7 +147,7 @@ SDL_Texture* CargarTexturaDesdeBinario(const char* ruta, SDL_Renderer* renderer)
     if (!pixels_rgb)
     {
         fclose(f);
-        return NULL;
+        return;
     }
 
     size_t leidos = fread(pixels_rgb, 3, cantidad_pixeles, f);//<---------Comprueba si la cantidad esperada de pixeles es = a la cantidad leida
@@ -151,55 +156,133 @@ SDL_Texture* CargarTexturaDesdeBinario(const char* ruta, SDL_Renderer* renderer)
     if (leidos != cantidad_pixeles)
     {
         free(pixels_rgb);
-        return NULL;
+        return;
     }
 
 
-    unsigned char* pixels_rgba = malloc(cantidad_pixeles * 4); //<------Reserva memoria para los pixeles RGBA (Nota: Los binarios los genere en formato RGB, pero SDL usa formato RGBA)
-    if (!pixels_rgba)
-    {
-        free(pixels_rgb);
-        return NULL;
+    img->pixeles = pixels_rgb;
+    img->ancho = ancho;
+    img->alto = alto;
+
+}
+
+
+
+
+
+void AplicarFiltroYConvertir(imagen_cruda_t *imagen, SDL_Color color)
+{
+    int cantidad_pixeles = imagen->alto * imagen->ancho;
+    unsigned char* pixels_rgba = malloc(cantidad_pixeles * 4);
+    if (!pixels_rgba) return;
+
+    for (int i = 0; i < cantidad_pixeles; i++) {
+        unsigned char r = imagen->pixeles[i * 3 + 0];
+        unsigned char g = imagen->pixeles[i * 3 + 1];
+        unsigned char b = imagen->pixeles[i * 3 + 2];
+
+
+        pixels_rgba[i * 4 + 0] = (r * color.r) / 255;
+        pixels_rgba[i * 4 + 1] = (g * color.g) / 255;
+        pixels_rgba[i * 4 + 2] = (b * color.b) / 255;
+
+        pixels_rgba[i * 4 + 3] = (r == 0 && g == 0 && b == 0) ? 0 : 255;
     }
 
-    for (int i = 0; i < cantidad_pixeles; i++)   //<----Recorre cada pixel
-    {
-
-        unsigned char r = pixels_rgb[i*3 + 0];  //<--- Obtiene los valores R,G,B de a grupos de 3 (pixel)
-        unsigned char g = pixels_rgb[i*3 + 1];
-        unsigned char b = pixels_rgb[i*3 + 2];
-
-        pixels_rgba[i*4 + 0] = r;   //<-------Hace lo mismo con los RGBA ignorando el alpha (por ahora)
-        pixels_rgba[i*4 + 1] = g;
-        pixels_rgba[i*4 + 2] = b;
+    free(imagen->pixeles);
+    imagen->pixeles = pixels_rgba;
+}
 
 
-        if (r == 0 && g == 0 && b == 0) //<-----Si el color leido en el binario es negro puro se reconoce como transparente (Alpha 0)
-            pixels_rgba[i*4 + 3] = 0;
-        else
-            pixels_rgba[i*4 + 3] = 255;
+
+
+void ConvertirRGBaRGBA(imagen_cruda_t *imagen)
+{
+    int cantidad_pixeles = imagen->alto * imagen->ancho;
+
+    unsigned char* pixels_rgba = malloc(cantidad_pixeles * 4);
+    if (!pixels_rgba) return ;
+
+    for (int i = 0; i < cantidad_pixeles; i++) {
+        unsigned char r = imagen->pixeles[i * 3 + 0];
+        unsigned char g = imagen->pixeles[i * 3 + 1];
+        unsigned char b = imagen->pixeles[i * 3 + 2];
+
+        pixels_rgba[i * 4 + 0] = r;
+        pixels_rgba[i * 4 + 1] = g;
+        pixels_rgba[i * 4 + 2] = b;
+        pixels_rgba[i * 4 + 3] = (r == 0 && g == 0 && b == 0) ? 0 : 255;
     }
 
-    free(pixels_rgb); //<--Libera la memoria de los pixeles rgb
+    free(imagen->pixeles);
+    imagen->pixeles = pixels_rgba;
+}
+
+
+
+
+
+
+
+
+
+
+
+SDL_Texture* CargarTexturaDesdeBinario(const char* ruta, SDL_Renderer* renderer,SDL_Color *filtro)
+{
+    imagen_cruda_t img;
+    CargarPixelesDesdeBinario(ruta,&img);
+    if (!img.pixeles) return NULL;
+
+    if(filtro == NULL){
+    ConvertirRGBaRGBA(&img);
+    }else{
+    AplicarFiltroYConvertir(&img,*filtro);
+    }
+
+
+    if (!img.pixeles) return NULL;
 
     SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormatFrom(
-                               pixels_rgba, ancho, alto, 32, ancho * 4, SDL_PIXELFORMAT_RGBA32      //<------Crea la superficie
-                           );
+        img.pixeles, img.ancho, img.alto, 32, img.ancho * 4, SDL_PIXELFORMAT_RGBA32
+    );
 
-    if (!surface)
-    {
-        free(pixels_rgba);
+    if (!surface) {
+        free(img.pixeles);
         return NULL;
     }
 
-    SDL_Texture* textura = SDL_CreateTextureFromSurface(renderer, surface);     //<----Crea la textura
-    SDL_FreeSurface(surface);     //<------Libera la memoria de la superficie
-    free(pixels_rgba);     //<--Libera la memoria de los pixeles rgba
+    SDL_Texture* textura = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_FreeSurface(surface);
+    free(img.pixeles);
 
-    SDL_SetTextureBlendMode(textura, SDL_BLENDMODE_BLEND); //<---Permite la transparencia
+    if (textura)
+        SDL_SetTextureBlendMode(textura, SDL_BLENDMODE_BLEND);
 
     return textura;
 }
+
+
+
+
+
+
+void CargarAnimaciondesdeBinario(const char* nombre,SDL_Color *color,SDL_Texture **texturas,SDL_Renderer *renderer){
+
+char ruta_completa[256];
+for(int i=1; i<=6; i++){
+     snprintf(ruta_completa, sizeof(ruta_completa), "img/%s%d.bin", nombre, i);
+     texturas[i-1] = CargarTexturaDesdeBinario(ruta_completa, renderer, color);
+}
+
+return;
+}
+
+
+
+
+
+
 
 
 

@@ -2,7 +2,7 @@
 #define MACROS_H_INCLUDED
 
 
-
+//------------OBJETOS-------------//
 #define ID_FONDO 0
 #define ID_AZUL 1
 #define ID_VERDE 2
@@ -42,11 +42,12 @@
 
 #define ID_PUNTAJE 24
 
-
+#define ID_MARCO_PUNTAJE 25
+//-------------------//
 
 
 #define CANTIDAD_BOTONES 20
-#define CANTIDAD_OBJETOS 25
+#define CANTIDAD_OBJETOS 26
 
 
 #endif // MACROS_H_INCLUDED

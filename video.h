@@ -27,8 +27,11 @@ typedef struct {
 
 
 
-
-
+typedef struct{
+unsigned char *pixeles;
+int alto;
+int ancho;
+}imagen_cruda_t;
 
 typedef struct {
    SDL_Texture **texturas;     //<--- Textura de la imagen
@@ -43,14 +46,18 @@ typedef struct {
 
 
 
+
 void CrearVentana(app_t*,const char*,int,int);
 void ManejarAnimaciones(imagen_t  *);
 void ActualizarRender(app_t *, imagen_t *);
 void ImagenCargar(imagen_t*,app_t*);
-SDL_Texture* CargarTexturaDesdeBinario(const char* ruta, SDL_Renderer* renderer);
+void CargarPixelesDesdeBinario(const char*,imagen_cruda_t *);
+void ConvertirRGBaRGBA(imagen_cruda_t *);
+SDL_Texture* CargarTexturaDesdeBinario(const char* ruta, SDL_Renderer* renderer,SDL_Color *);
 imagen_t ImagenCrear(app_t*,int,SDL_Texture**, int , int , int , int , int,int);
 SDL_Texture* CombinarTexturaConTexto(SDL_Renderer* , SDL_Texture* , const char* , const char* , int , SDL_Color );
 SDL_Texture* CrearTexturaTopJugadores(SDL_Renderer *, TTF_Font *, jugador_t *, int );
+void AplicarFiltroYConvertir(imagen_cruda_t *, SDL_Color );
 
-
+void CargarAnimaciondesdeBinario(const char* ,SDL_Color *,SDL_Texture **,SDL_Renderer *);
 #endif
