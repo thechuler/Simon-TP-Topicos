@@ -3,38 +3,96 @@
 //------Aumenta la cantidad de notas
 void FuncionBotonSumarNota()
 {
-    if(cantidad_notas<8)
+    if(cantidad_notas<8){
+    char texto[10];
         cantidad_notas++;
-    printf("Sumando Notas %d \n",cantidad_notas);
-   // objetos[ID_NOTAS].texturas[0] =
+        snprintf(texto, sizeof(texto), "Notas: %d",cantidad_notas);
+        objetos[ID_NOTAS].texturas[0] = CombinarTexturaConTexto(
+        juego.renderer,
+        CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+        texto, "Symtext.ttf", 7, (SDL_Color){255, 0, 125, 255});
+        printf("Sumando Notas %d \n",cantidad_notas);
+
+        for(int i=0; i<8; i++){
+            if(notas_activas[i] == 0){
+               notas_activas[i]=1;
+                break;
+            }
+        }
+
+
+    }
+}
+
+
+void FuncionSlime(){
+    if(easter_egg<0)
+        return;
+
+if(easter_egg<25  ){
+    easter_egg++;
+}else{
+easter_egg=0;
+}
 }
 
 
 //------Reduce la cantidad de notas
 void FuncionBotonRestarNota()
 {
-    if(cantidad_notas>1)
+      if(cantidad_notas>1){
+    char texto[10];
         cantidad_notas--;
+         snprintf(texto, sizeof(texto), "Notas: %d",cantidad_notas);
+        objetos[ID_NOTAS].texturas[0] = CombinarTexturaConTexto(
+            juego.renderer,
+            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+            texto, "Symtext.ttf", 7, (SDL_Color){255, 0, 125, 255});
     printf("Restando Notas %d \n",cantidad_notas);
-   // objetos[ID_NOTAS].texturas[0] =
+
+     for(int i=8; i>0; i--){
+            if(notas_activas[i] ==1){
+               notas_activas[i]=0;
+                break;
+            }
+        }
+
+
+
+    }
 }
 
 
 //----Reduce la duracion de un sonido
 void FuncionBotonRestarDuracion()
 {
-    if(duracion_sonido>2000)
-        duracion_sonido -= 100;
-    printf("Restando Duracion %d \n",duracion_sonido);
-
+    if(duracion_sonido>2000){
+               char texto[12];
+           duracion_sonido -= 100;
+         snprintf(texto, sizeof(texto), "Dur: %d ms",duracion_sonido);
+        objetos[ID_DURACION].texturas[0] = CombinarTexturaConTexto(
+            juego.renderer,
+            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+            texto, "Symtext.ttf", 7, (SDL_Color){255, 0, 125, 255});
+       printf("Restando Duracion %d \n",duracion_sonido);
+    }
 }
 
 //---Aumenta la duracion de un sonido
 void FuncionBotonSumarDuracion()
 {
-      if(duracion_sonido<3000)
+      if(duracion_sonido<3000){
+        char texto[12];
         duracion_sonido += 100;
-    printf("Sumando Duracion %d \n",duracion_sonido);
+        snprintf(texto, sizeof(texto), "Dur: %dms",duracion_sonido);
+        objetos[ID_DURACION].texturas[0] = CombinarTexturaConTexto(
+            juego.renderer,
+            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+            texto, "Symtext.ttf", 7, (SDL_Color){255, 0, 125, 255});
+        printf("Sumando Duracion %d \n",duracion_sonido);
+      }
+
+
 }
 
 

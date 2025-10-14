@@ -42,11 +42,12 @@
 
 #define ID_PUNTAJE 24
 
-#define ID_MARCO_PUNTAJE 25
+#define ID_SLIME 25
+
 //-------------------//
 
 
-#define CANTIDAD_BOTONES 20
+#define CANTIDAD_BOTONES 21
 #define CANTIDAD_OBJETOS 26
 
 

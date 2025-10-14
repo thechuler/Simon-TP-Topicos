@@ -53,6 +53,7 @@ void FuncionBotonSumarNota();
 void FuncionBotonRestarNota();
 void FuncionBotonSumarDuracion();
 void FuncionBotonRestarDuracion();
+void FuncionSlime();
 char* AbrirExploradorYRecuperarRuta();
 
 

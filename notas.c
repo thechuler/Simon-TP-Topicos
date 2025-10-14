@@ -190,6 +190,7 @@ void MelodiaGuardar(melodia_t *melodia,char *nombre)
     FILE *f = fopen(ruta,"wb");//<---Crea un File en la carpeta saves
     if(!f) return;
 
+    fwrite(&cantidad_notas, sizeof(int), 1, f); //<--------- guarda la cantidad de notas
     fwrite(melodia->p, sizeof(int), melodia->cant_notas, f); //<-------Guarda la melodia
     fclose(f); //<--- Cierra
 }
@@ -206,6 +207,28 @@ void MelodiaCargar(melodia_t *melodia,const char* ruta)
         printf("No se pudo abrir el archivo.\n");
         return;
     }
+
+    fread(&cantidad_notas, sizeof(int), 1, f);
+    printf("Cantidad de notas cargadas: %d\n", cantidad_notas);
+
+
+
+    for (int i = 0; i < 8; i++) {
+        notas_activas[i] = 0;
+    }
+
+    for (int i = 0; i < cantidad_notas && i < 8; i++) {
+        notas_activas[i] = 1;
+    }
+
+        chdir(".."); //<--------Vuelve al path original por que ahora estamos en saves
+        char texto[10];
+        snprintf(texto, sizeof(texto), "Notas: %d",cantidad_notas);
+        objetos[ID_NOTAS].texturas[0] = CombinarTexturaConTexto(      //<---------Actualiza el boton de configs
+        juego.renderer,
+        CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+        texto, "Symtext.ttf", 7, (SDL_Color){255, 0, 125, 255});
+
 
     int nota; //<--Auxiliar
 

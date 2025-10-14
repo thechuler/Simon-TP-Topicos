@@ -4,12 +4,10 @@ int main(int argc, char *argv[])
 {
 
     srand(time(NULL));          //<--- Semilla
-    app_t juego;                // <---- Ventana principal
     app_t ventana_auxiliar;     //<--- Ventana auxiliar
     char ingresoTexto = 0;      //<---Cuando se esta o no ingresando texto
     char botones_activos = 1;   //<--- Cuando los botones se pueden clickear o no
     char texto[256] = "";       // <--- Variable auxiliar para ingreso de texto
-
 
 
 
@@ -76,7 +74,7 @@ int main(int argc, char *argv[])
 
     //-------------------------COLORES--------------------------//
 
-    SDL_Color colores_notas[9] =
+    SDL_Color colores_notas[10] =
     {
         {255, 0, 125, 255}, // Rosa
         {60, 100, 200, 255},   // Azul
@@ -86,6 +84,7 @@ int main(int argc, char *argv[])
         {185, 40, 255, 255}, // violeta
         {255, 157, 40, 255}, // naranja
         {78, 78, 78, 255}, // negro
+        {0, 0, 0, 50}, // desactivado
     };
 
 
@@ -122,6 +121,26 @@ int main(int argc, char *argv[])
 
     SDL_Texture *texturas_blanco[6];
     CargarAnimaciondesdeBinario("slime",NULL,texturas_blanco,juego.renderer);
+
+    SDL_Texture *texturas_rosa[6];
+    CargarAnimaciondesdeBinario("slime",&colores_notas[0],texturas_rosa,juego.renderer);
+
+    SDL_Texture *texturas_desactivado[6];
+    CargarAnimaciondesdeBinario("slime",&colores_notas[8],texturas_desactivado,juego.renderer);
+
+
+    SDL_Texture **texturas_slimes[10]={
+        texturas_rosa,
+        texturas_azul,
+        texturas_verde,
+        texturas_rojo,
+        texturas_amarillo,
+        texturas_violeta,
+        texturas_naranja,
+        texturas_blanco,
+        texturas_negro,
+        texturas_desactivado};
+
 
 
     SDL_Texture *botonJugar[2] =
@@ -237,7 +256,7 @@ int main(int argc, char *argv[])
         CombinarTexturaConTexto(
             juego.renderer,
             CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
-            " ", "Symtext.ttf", 6, colores_notas[0]);
+            "Dur: 2000ms", "Symtext.ttf", 6, colores_notas[0]);
 
 
 
@@ -251,9 +270,6 @@ int main(int argc, char *argv[])
 
 
 
-
-
-
     // ------------------------- OBJETOS ------------------------ //
     objetos[ID_FONDO] = ImagenCrear(&juego, 1, &fondo, PANTALLA_ALTO, PANTALLA_ANCHO, 0, 0, ANIMACION_NO, ID_FONDO);
     objetos[ID_BOTON_MODO] = ImagenCrear(&juego, 2, botonJugar, 100, 200, 50, 150, ANIMACION_RESET, ID_BOTON_MODO);
@@ -261,15 +277,15 @@ int main(int argc, char *argv[])
     objetos[ID_BOTON_VOLVER] = ImagenCrear(&juego, 1, &home, 100, 100, 550, 360, ANIMACION_RESET, ID_BOTON_VOLVER);
     objetos[ID_BOTON_SALIR] = ImagenCrear(&juego, 2, botonSalir, 100, 200, 50, 350, ANIMACION_RESET, ID_BOTON_SALIR);
 
-    objetos[ID_AZUL] = ImagenCrear(&juego, 6, texturas_azul, 160, 120, 125, 100, ANIMACION_RESET, ID_AZUL);
-    objetos[ID_VERDE] = ImagenCrear(&juego, 6, texturas_verde, 160, 120, 235, 100, ANIMACION_RESET, ID_VERDE);
-    objetos[ID_ROJO] = ImagenCrear(&juego, 6, texturas_rojo, 160, 120, 345, 100, ANIMACION_RESET, ID_ROJO);
-    objetos[ID_AMARILLO] = ImagenCrear(&juego, 6, texturas_amarillo, 160, 120, 455, 100, ANIMACION_RESET, ID_AMARILLO);
+    objetos[ID_AZUL] = ImagenCrear(&juego, 6, texturas_slimes[ID_AZUL], 160, 120, 125, 100, ANIMACION_RESET, ID_AZUL);
+    objetos[ID_VERDE] = ImagenCrear(&juego, 6, texturas_slimes[ID_VERDE], 160, 120, 235, 100, ANIMACION_RESET, ID_VERDE);
+    objetos[ID_ROJO] = ImagenCrear(&juego, 6, texturas_slimes[ID_ROJO], 160, 120, 345, 100, ANIMACION_RESET, ID_ROJO);
+    objetos[ID_AMARILLO] = ImagenCrear(&juego, 6, texturas_slimes[ID_AMARILLO], 160, 120, 455, 100, ANIMACION_RESET, ID_AMARILLO);
 
-    objetos[ID_VIOLETA] = ImagenCrear(&juego, 6, texturas_violeta, 160, 120, 125, 180, ANIMACION_RESET, ID_VIOLETA);
-    objetos[ID_NARANJA] = ImagenCrear(&juego, 6, texturas_naranja, 160, 120, 235, 180, ANIMACION_RESET, ID_NARANJA);
-    objetos[ID_NEGRO] = ImagenCrear(&juego, 6, texturas_negro, 160, 120, 345, 180, ANIMACION_RESET, ID_NEGRO);
-    objetos[ID_BLANCO] = ImagenCrear(&juego, 6, texturas_blanco, 160, 120, 455, 180, ANIMACION_RESET, ID_BLANCO);
+    objetos[ID_VIOLETA] = ImagenCrear(&juego, 6, texturas_slimes[ID_VIOLETA], 160, 120, 125, 180, ANIMACION_RESET, ID_VIOLETA);
+    objetos[ID_NARANJA] = ImagenCrear(&juego, 6, texturas_slimes[ID_NARANJA], 160, 120, 235, 180, ANIMACION_RESET, ID_NARANJA);
+    objetos[ID_NEGRO] = ImagenCrear(&juego, 6, texturas_slimes[ID_NEGRO], 160, 120, 345, 180, ANIMACION_RESET, ID_NEGRO);
+    objetos[ID_BLANCO] = ImagenCrear(&juego, 6, texturas_slimes[ID_BLANCO], 160, 120, 455, 180, ANIMACION_RESET, ID_BLANCO);
 
     objetos[ID_BOTON_SCHONBERG] = ImagenCrear(&juego, 2, botonSchonberg, 100, 200, 50, 150, ANIMACION_RESET, ID_BOTON_SCHONBERG);
     objetos[ID_BOTON_MOZART] = ImagenCrear(&juego, 2, botonMozart, 100, 200, 50, 250, ANIMACION_RESET, ID_BOTON_MOZART);
@@ -277,7 +293,7 @@ int main(int argc, char *argv[])
     objetos[ID_BOTON_GUARDAR] = ImagenCrear(&juego, 2, botonGuardar, 100, 200, 500, 0, ANIMACION_RESET, ID_BOTON_GUARDAR);
 
     objetos[ID_TOP] = ImagenCrear(&juego, 1, topJugadoresTex, 250, 200, 480, 150, ANIMACION_RESET, ID_TOP);
-    objetos[ID_PUNTAJE] = ImagenCrear(&juego, 1, &puntajeText, 100, 150, 0, 0, ANIMACION_RESET, ID_PUNTAJE);
+    objetos[ID_PUNTAJE] = ImagenCrear(&juego, 1, &puntajeText, 100, 150, 50,350, ANIMACION_RESET, ID_PUNTAJE);
 
     objetos[ID_SUMAR_NOTAS] = ImagenCrear(&juego, 1, botonSumar, 100, 50, 570, 250, ANIMACION_RESET, ID_SUMAR_NOTAS);
     objetos[ID_RESTAR_NOTAS] = ImagenCrear(&juego, 1, botonRestar, 100, 50, 500, 250, ANIMACION_RESET, ID_RESTAR_NOTAS);
@@ -287,8 +303,7 @@ int main(int argc, char *argv[])
 
     objetos[ID_DURACION] = ImagenCrear(&juego, 1,&botonDuracion, 100, 400, 50, 150, ANIMACION_RESET, ID_DURACION);
     objetos[ID_NOTAS] = ImagenCrear(&juego, 1, &cant_notas, 100, 400, 50, 250, ANIMACION_RESET, ID_NOTAS);
-    objetos[ID_MARCO_PUNTAJE] = ImagenCrear(&juego, 1,&cant_notas, 100, 400, 50, 250, ANIMACION_RESET, ID_MARCO_PUNTAJE);
-
+    objetos[ID_SLIME] = ImagenCrear(&juego, 6, texturas_slimes[0], 260, 220, 260, 100, ANIMACION_RESET, ID_SLIME);
 
     //---------------------------------------------------------------------------------------------------------------//
 
@@ -333,6 +348,18 @@ int main(int argc, char *argv[])
     // ------------------------- BUCLE PRINCIPAL ------------------------ //
     while (corriendo)
     {
+
+
+    if(modo != 5){
+        for(int i=0;i<8;i++){
+        if(notas_activas[i] != 1){
+             objetos[i+1].texturas = texturas_slimes[9]; //<----Desactiva
+             }else{
+              objetos[i+1].texturas = texturas_slimes[i+1];
+             }
+        }
+     }
+
 
 
         while (SDL_PollEvent(&e))
@@ -506,20 +533,43 @@ int main(int argc, char *argv[])
             {
                 Mix_PlayChannel(0, sonidos[i], 0); //<--- Reproduce su sonido
 
-/*
+
                 if(cantidad_notas >1)  //<--- Si hay mas de 1 nota se aplica una reduccion en el tiempo total
                 {
                     SDL_Delay(duracion_sonido - ((duracion_sonido*0.03))* melodia.cant_notas ); //<-- -3% por nota
+                    Mix_HaltChannel(0);
                 }
                 else
                 {
                     SDL_Delay(duracion_sonido); //<--- Si hay solo 1, simplemente no se aplica
+                    Mix_HaltChannel(0);
                 }
-*/
+
             }
 
         }
+//-------------------------------------------------------------------------------------//
 
+
+
+
+
+        //-----------------------EASTER EGG :O----------------------//
+        if(easter_egg == -1 && !objetos[ID_SLIME].frame_actual == 0){
+            corriendo = 0;
+        }
+
+        if(objetos[ID_SLIME].frame_actual == 3 ){
+                if(easter_egg == 14){
+                       Mix_PlayChannel(0, sonidos[0], 0);
+                        SDL_Delay(1000);
+                        easter_egg =-1;
+                       corriendo = 0;
+                }else{
+                Mix_PlayChannel(0, sonidos[1+rand()%8], 0);
+                }
+
+        }
 
         //-------------------------------------------------------------------------------------------//
 

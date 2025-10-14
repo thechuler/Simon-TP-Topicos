@@ -11,6 +11,10 @@ int cantidad_notas = 3; //<------Cantidad de notas activas (por defecto 3)
 int duracion_sonido = 2000;  //<------- Duracion de cada nota (Por defecto 2sg)
 char animando_fin_ronda = 0; //<-----Si esta o no animando el final de una ronda
 char nombre_archivo[200]; //<-------Nombre del archivo que guardara la melodia.
+app_t juego; //<------Ventana principal del juego
+int notas_activas[8] ={1,1,1,0,0,0,0,0}; //<----Notas activas actualmente
+int easter_egg = 0;
+
 
 jugador_t jugadores_top[5] = {
     {"DUM ->?",14},
@@ -56,6 +60,7 @@ melodia_t melodia_jugador; //<-----Melodia Mozart/ Desafio
 
         { &objetos[ID_SUMAR_DURACION], FuncionBotonSumarDuracion,  0 ,ID_SUMAR_DURACION},
         { &objetos[ID_RESTAR_DURACION], FuncionBotonRestarDuracion,  0 ,ID_RESTAR_DURACION},
+        { &objetos[ID_SLIME], FuncionSlime,  0 ,ID_SLIME},
     };
     //-----------------------------------------------------------------------------------//
 

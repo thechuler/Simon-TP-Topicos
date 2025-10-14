@@ -22,6 +22,9 @@ extern melodia_t melodia;
 extern melodia_t melodia_jugador;
 extern char nombre_archivo[200];
 extern int duracion_sonido;
+extern app_t juego;
+extern int notas_activas[8];
+extern int easter_egg;
 
 
 #endif // VARIABLES_GLOBALES_H_INCLUDED

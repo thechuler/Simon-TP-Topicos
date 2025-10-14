@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+
+#include <unistd.h>
 #include "video.h"
 #include "gui.h"
 #include "variables_globales.h"

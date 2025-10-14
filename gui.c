@@ -121,6 +121,9 @@ botones[BotonesObtenerPorId(ID_BOTON_CONFIG)].esta_activo = 1;
 objetos[ID_BOTON_MODO].debe_Renderizar = 1;
 botones[BotonesObtenerPorId(ID_BOTON_MODO)].esta_activo = 1;
 
+objetos[ID_SLIME].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_SLIME)].esta_activo = 1;
+
 objetos[ID_TOP].debe_Renderizar = 1;
 objetos[ID_FONDO].debe_Renderizar = 1;
 
@@ -201,36 +204,26 @@ void PantallasSchonberg(){
 PantallaBloquearBotones();
 PantallasLimpiar();
 
+objetos[ID_FONDO].debe_Renderizar = 1;
 //Objetos en pantalla:
+
+
+for(int i = 0; i<8;i++){
+    if(notas_activas[i] == 1){
+    botones[BotonesObtenerPorId(i+1)].esta_activo = 1;
+    }
+}
+
 objetos[ID_AZUL].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_AZUL)].esta_activo = 1;
-
 objetos[ID_ROJO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_ROJO)].esta_activo = 1;
-
 objetos[ID_VERDE].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_VERDE)].esta_activo = 1;
-
 objetos[ID_AMARILLO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_AMARILLO)].esta_activo = 1;
-
 objetos[ID_VIOLETA].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_VIOLETA)].esta_activo = 1;
-
 objetos[ID_NARANJA].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_NARANJA)].esta_activo = 1;
-
 objetos[ID_NEGRO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_NEGRO)].esta_activo = 1;
-
 objetos[ID_BLANCO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_BLANCO)].esta_activo = 1;
-
-
 objetos[ID_BOTON_VOLVER].debe_Renderizar = 1;
 botones[BotonesObtenerPorId(ID_BOTON_VOLVER)].esta_activo = 1;
-
-
 objetos[ID_PUNTAJE].debe_Renderizar = 1;
 }
 
@@ -240,30 +233,38 @@ void PantallasDesafio(){
 PantallaBloquearBotones();
 PantallasLimpiar();
 
+
+for(int i = 0; i<8;i++){
+    if(notas_activas[i] == 1){
+    botones[BotonesObtenerPorId(i+1)].esta_activo = 1;
+    }
+}
+
+
 //Objetos en pantalla:
 objetos[ID_AZUL].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_AZUL)].esta_activo = 1;
+
 
 objetos[ID_ROJO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_ROJO)].esta_activo = 1;
+
 
 objetos[ID_VERDE].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_VERDE)].esta_activo = 1;
+
 
 objetos[ID_AMARILLO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_AMARILLO)].esta_activo = 1;
+
 
 objetos[ID_VIOLETA].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_VIOLETA)].esta_activo = 1;
+
 
 objetos[ID_NARANJA].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_NARANJA)].esta_activo = 1;
+
 
 objetos[ID_NEGRO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_NEGRO)].esta_activo = 1;
+
 
 objetos[ID_BLANCO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_BLANCO)].esta_activo = 1;
+
 
 
 objetos[ID_BOTON_GUARDAR].debe_Renderizar = 1;
@@ -280,30 +281,37 @@ void PantallasMozart(){
 PantallaBloquearBotones();
 PantallasLimpiar();
 
+
+for(int i = 0; i<8;i++){
+    if(notas_activas[i] == 1){
+    botones[BotonesObtenerPorId(i+1)].esta_activo = 1;
+    }
+}
+
+
 //Objetos en pantalla:
 objetos[ID_AZUL].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_AZUL)].esta_activo = 1;
+
 
 objetos[ID_ROJO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_ROJO)].esta_activo = 1;
+
 
 objetos[ID_VERDE].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_VERDE)].esta_activo = 1;
+
 
 objetos[ID_AMARILLO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_AMARILLO)].esta_activo = 1;
+
 
 objetos[ID_VIOLETA].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_VIOLETA)].esta_activo = 1;
+
 
 objetos[ID_NARANJA].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_NARANJA)].esta_activo = 1;
+
 
 objetos[ID_NEGRO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_NEGRO)].esta_activo = 1;
+
 
 objetos[ID_BLANCO].debe_Renderizar = 1;
-botones[BotonesObtenerPorId(ID_BLANCO)].esta_activo = 1;
 
 objetos[ID_BOTON_VOLVER].debe_Renderizar = 1;
 botones[BotonesObtenerPorId(ID_BOTON_VOLVER)].esta_activo = 1;
