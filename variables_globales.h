@@ -1,6 +1,7 @@
 #ifndef VARIABLES_GLOBALES_H_INCLUDED
 #define VARIABLES_GLOBALES_H_INCLUDED
 
+#include <SDL2/SDL_mixer.h>
 #include "notas.h"
 #include "video.h"
 #include "gui.h"
@@ -25,6 +26,6 @@ extern int duracion_sonido;
 extern app_t juego;
 extern int notas_activas[8];
 extern int easter_egg;
-
+extern Mix_Chunk *sonidos[11];
 
 #endif // VARIABLES_GLOBALES_H_INCLUDED

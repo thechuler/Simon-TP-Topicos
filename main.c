@@ -1,4 +1,5 @@
 #include "main.h"
+#include <SDL2/SDL_mixer.h>
 
 int main(int argc, char *argv[])
 {
@@ -9,6 +10,7 @@ int main(int argc, char *argv[])
     char botones_activos = 1;   //<--- Cuando los botones se pueden clickear o no
     char texto[256] = "";       // <--- Variable auxiliar para ingreso de texto
 
+    int modo_cheat = 0;
 
 
 
@@ -43,7 +45,7 @@ int main(int argc, char *argv[])
 
 
     // ------------------------- FUENTE ------------------------ //
-    TTF_Font *font = TTF_OpenFont("Symtext.ttf",34);
+    TTF_Font *font = TTF_OpenFont("fnt/Symtext.ttf",34);
     if (!font)
     {
         printf("Error al cargar fuente: %s\n", TTF_GetError());
@@ -148,7 +150,7 @@ int main(int argc, char *argv[])
         CombinarTexturaConTexto(
             juego.renderer,
             CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
-            "Jugar", "Symtext.ttf", 14, colores_notas[0]
+            "Jugar", "fnt/Symtext.ttf", 14, colores_notas[0]
         ),
         CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
     };
@@ -159,7 +161,7 @@ int main(int argc, char *argv[])
         CombinarTexturaConTexto(
             juego.renderer,
             CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
-            "Configs", "Symtext.ttf", 11, colores_notas[0]
+            "Configs", "fnt/Symtext.ttf", 11, colores_notas[0]
         ),
         CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
     };
@@ -169,7 +171,7 @@ int main(int argc, char *argv[])
         CombinarTexturaConTexto(
             juego.renderer,
             CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
-            "Salir", "Symtext.ttf", 14, colores_notas[0]
+            "Salir", "fnt/Symtext.ttf", 14, colores_notas[0]
         ),
         CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
     };
@@ -180,7 +182,7 @@ int main(int argc, char *argv[])
         CombinarTexturaConTexto(
             juego.renderer,
             CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
-            "Schonberg", "Symtext.ttf", 8, colores_notas[0]
+            "Schonberg", "fnt/Symtext.ttf", 8, colores_notas[0]
         ),
         CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
     };
@@ -191,7 +193,7 @@ int main(int argc, char *argv[])
         CombinarTexturaConTexto(
             juego.renderer,
             CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
-            "Mozart", "Symtext.ttf", 10, colores_notas[0]
+            "Mozart", "fnt/Symtext.ttf", 10, colores_notas[0]
         ),
         CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
     };
@@ -201,7 +203,7 @@ int main(int argc, char *argv[])
         CombinarTexturaConTexto(
             juego.renderer,
             CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
-            "Desafio", "Symtext.ttf", 10, colores_notas[0]
+            "Desafio", "fnt/Symtext.ttf", 10, colores_notas[0]
         ),
         CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
     };
@@ -211,7 +213,7 @@ int main(int argc, char *argv[])
         CombinarTexturaConTexto(
             juego.renderer,
             CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
-            "Guardar", "Symtext.ttf", 10, colores_notas[0]
+            "Guardar", "fnt/Symtext.ttf", 10, colores_notas[0]
         ),
         CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
     };
@@ -222,7 +224,7 @@ int main(int argc, char *argv[])
         CombinarTexturaConTexto(
             juego.renderer,
             CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
-            "+", "Symtext.ttf", 25, colores_notas[0]
+            "+", "fnt/Symtext.ttf", 25, colores_notas[0]
         ),
         CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
     };
@@ -233,7 +235,7 @@ int main(int argc, char *argv[])
         CombinarTexturaConTexto(
             juego.renderer,
             CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
-            "-", "Symtext.ttf", 25, colores_notas[0]
+            "-", "fnt/Symtext.ttf", 25, colores_notas[0]
         ),
         CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
     };
@@ -242,26 +244,28 @@ int main(int argc, char *argv[])
         CombinarTexturaConTexto(
             juego.renderer,
             CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL), //<--- Textura puntaje
-            "0", "Symtext.ttf", 10, colores_notas[0]);
+            "0", "fnt/Symtext.ttf", 10, colores_notas[0]);
 
 
     SDL_Texture *cant_notas =
         CombinarTexturaConTexto(
             juego.renderer,
             CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),    //<--- Textura config
-            "NOTAS: 3", "Symtext.ttf", 7, colores_notas[0]);
+            "NOTAS: 3", "fnt/Symtext.ttf", 7, colores_notas[0]);
 
 
     SDL_Texture *botonDuracion =
         CombinarTexturaConTexto(
             juego.renderer,
             CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
-            "Dur: 2000ms", "Symtext.ttf", 6, colores_notas[0]);
+            "Dur: 2000ms", "fnt/Symtext.ttf", 6, colores_notas[0]);
 
 
 
     SDL_Texture *fondo = CargarTexturaDesdeBinario("img/fondo1.bin", juego.renderer,NULL);
     SDL_Texture *home = CargarTexturaDesdeBinario("img/home1.bin", juego.renderer,NULL);
+
+    SDL_Texture *win = CargarTexturaDesdeBinario("img/win1.bin", juego.renderer,NULL);
 
 
 
@@ -290,7 +294,7 @@ int main(int argc, char *argv[])
     objetos[ID_BOTON_SCHONBERG] = ImagenCrear(&juego, 2, botonSchonberg, 100, 200, 50, 150, ANIMACION_RESET, ID_BOTON_SCHONBERG);
     objetos[ID_BOTON_MOZART] = ImagenCrear(&juego, 2, botonMozart, 100, 200, 50, 250, ANIMACION_RESET, ID_BOTON_MOZART);
     objetos[ID_BOTON_DESAFIO] = ImagenCrear(&juego, 2, botonDesafio, 100, 200, 50, 350, ANIMACION_RESET, ID_BOTON_DESAFIO);
-    objetos[ID_BOTON_GUARDAR] = ImagenCrear(&juego, 2, botonGuardar, 100, 200, 500, 0, ANIMACION_RESET, ID_BOTON_GUARDAR);
+    objetos[ID_BOTON_GUARDAR] = ImagenCrear(&juego, 2, botonGuardar,  100, 200, 50, 350, ANIMACION_RESET, ID_BOTON_GUARDAR);
 
     objetos[ID_TOP] = ImagenCrear(&juego, 1, topJugadoresTex, 250, 200, 480, 150, ANIMACION_RESET, ID_TOP);
     objetos[ID_PUNTAJE] = ImagenCrear(&juego, 1, &puntajeText, 100, 150, 50,350, ANIMACION_RESET, ID_PUNTAJE);
@@ -304,29 +308,41 @@ int main(int argc, char *argv[])
     objetos[ID_DURACION] = ImagenCrear(&juego, 1,&botonDuracion, 100, 400, 50, 150, ANIMACION_RESET, ID_DURACION);
     objetos[ID_NOTAS] = ImagenCrear(&juego, 1, &cant_notas, 100, 400, 50, 250, ANIMACION_RESET, ID_NOTAS);
     objetos[ID_SLIME] = ImagenCrear(&juego, 6, texturas_slimes[0], 260, 220, 260, 100, ANIMACION_RESET, ID_SLIME);
+    objetos[ID_WIN] = ImagenCrear(&juego, 6, &win, 100, 500, 100, 200, ANIMACION_RESET, ID_WIN);
 
     //---------------------------------------------------------------------------------------------------------------//
 
 
+ Mix_Chunk *notas1[12];
+ Mix_Chunk *notas_usadas[8];
+
+
+
+
+    sonidos[0] = cargarSonido("snd/sonido.wav");
+    sonidos[9] = cargarSonido("snd/guisfx1.wav");
+    sonidos[10] = cargarSonido("snd/guisfx2.wav");
+
+
+    notas1[0] = cargarSonido("snd/do1.wav");
+    notas1[1] = cargarSonido("snd/re1.wav");
+    notas1[2] = cargarSonido("snd/mi1.wav");
+    notas1[3] = cargarSonido("snd/fa1.wav");
+    notas1[4] = cargarSonido("snd/sol1.wav");
+    notas1[5] = cargarSonido("snd/la1.wav");
+    notas1[6] = cargarSonido("snd/si1.wav");
+    notas1[7] = cargarSonido("snd/doa1.wav");
+    notas1[8] = cargarSonido("snd/fa#1.wav");
+    notas1[9] = cargarSonido("snd/la#1.wav");
+    notas1[10] = cargarSonido("snd/mib1.wav");
+    notas1[11] = cargarSonido("snd/lab1.wav");
 
 
 
 
 
-    // ------------------------- SONIDOS ------------------------ //
-    Mix_Chunk *sonidos[9] =
-    {
-        cargarSonido("snd/sonido.wav"),
-        cargarSonido("snd/do.wav"),
-        cargarSonido("snd/re.wav"),
-        cargarSonido("snd/mi.wav"),
-        cargarSonido("snd/fa.wav"),
-        cargarSonido("snd/sol.wav"),
-        cargarSonido("snd/la.wav"),
-        cargarSonido("snd/si.wav"),
-        cargarSonido("snd/doa.wav")
-    };
-    //------------------------------------------------------------//
+
+
 
 
 
@@ -348,6 +364,7 @@ int main(int argc, char *argv[])
     // ------------------------- BUCLE PRINCIPAL ------------------------ //
     while (corriendo)
     {
+
 
 
     if(modo != 5){
@@ -398,7 +415,6 @@ int main(int argc, char *argv[])
                 else if (e.key.keysym.sym == SDLK_RETURN) //<-----Ingresar Texto
                 {
 
-
                     if(modo == MODO_SCHONBERG)       //<-------- En el modo SCHONBERG el texto es el nombre del jugador
                     {
                         strcpy(jugador_actual.nombre,texto);
@@ -429,6 +445,9 @@ int main(int argc, char *argv[])
                     }
 
                     texto[0] = '\0';  //<-------Reset del texto
+
+
+
                 }
             }
             //--------------------------------------------------------------------//
@@ -452,7 +471,7 @@ int main(int argc, char *argv[])
 
                 char texto_puntaje[20];       //<--------Actualiza el render de puntuacion
                 sprintf(texto_puntaje, "%d", puntuacion + 1);
-                objetos[ID_PUNTAJE].texturas[0] =  CombinarTexturaConTexto(juego.renderer,CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),texto_puntaje, "arial.ttf", 10, colores_notas[0]);
+                objetos[ID_PUNTAJE].texturas[0] =  CombinarTexturaConTexto(juego.renderer,CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),texto_puntaje, "fnt/arial.ttf", 10, colores_notas[0]);
                 resultado = MelodiaFinalDeRonda(&melodia, RESULTADO_GANO); //<----Comprueba Siguiente estado
             }
 
@@ -531,7 +550,79 @@ int main(int argc, char *argv[])
         {
             if (objetos[i].frame_actual == 3 && !animando_fin_ronda)  //<---Si no esta animando el fin de la ronda y tiene la boca abierta
             {
-                Mix_PlayChannel(0, sonidos[i], 0); //<--- Reproduce su sonido
+                switch (cantidad_notas){
+                case 3:
+
+                    notas_usadas[0] = notas1[0];
+                    notas_usadas[1] = notas1[2];
+                    notas_usadas[2] = notas1[4];//<--------- Acorde Mayor
+
+                    break;
+
+                case 4:
+                    notas_usadas[0] = notas1[0];
+                    notas_usadas[1] = notas1[2];
+                    notas_usadas[2] = notas1[4];
+                    notas_usadas[3] = notas1[5]; //<--------- Acorde Mayor con sexta
+                    break;
+
+                case 5:
+                    notas_usadas[0] = notas1[0];
+                    notas_usadas[1] = notas1[1];
+                    notas_usadas[2] = notas1[2];
+                    notas_usadas[3] = notas1[4]; //<---------Escala Menor Pentatonica
+                    notas_usadas[4] = notas1[5];
+                    break;
+
+                case 6:
+                    notas_usadas[0] = notas1[0];
+                    notas_usadas[1] = notas1[1];
+                    notas_usadas[2] = notas1[2];
+                    notas_usadas[3] = notas1[8]; //<---------Escala Menor Hexatonal
+                    notas_usadas[4] = notas1[11];
+                    notas_usadas[5] = notas1[9];
+                    break;
+
+
+                case 7:
+                    notas_usadas[0] = notas1[0];
+                    notas_usadas[1] = notas1[1];
+                    notas_usadas[2] = notas1[10];
+                    notas_usadas[3] = notas1[3]; //<---------Escala Menor Armonica
+                    notas_usadas[4] = notas1[4];
+                    notas_usadas[5] = notas1[11];
+                    notas_usadas[6] = notas1[6];
+                    break;
+
+                default:
+                    notas_usadas[0] = notas1[0];
+                    notas_usadas[1] = notas1[1];
+                    notas_usadas[2] = notas1[2];
+                    notas_usadas[3] = notas1[3]; //<---------Escala Mayor
+                    notas_usadas[4] = notas1[4];
+                    notas_usadas[5] = notas1[5];
+                    notas_usadas[6] = notas1[6];
+                    notas_usadas[7] = notas1[7];
+                    break;
+                }
+
+                    Mix_PlayChannel(0, notas_usadas[i-1], 0); //<--- Reproduce su sonido
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                 if(cantidad_notas >1)  //<--- Si hay mas de 1 nota se aplica una reduccion en el tiempo total
@@ -542,7 +633,7 @@ int main(int argc, char *argv[])
                 else
                 {
                     SDL_Delay(duracion_sonido); //<--- Si hay solo 1, simplemente no se aplica
-                    Mix_HaltChannel(0);
+                   Mix_HaltChannel(0);
                 }
 
             }
@@ -563,12 +654,24 @@ int main(int argc, char *argv[])
                 if(easter_egg == 14){
                        Mix_PlayChannel(0, sonidos[0], 0);
                         SDL_Delay(1000);
-                        easter_egg =-1;
-                       corriendo = 0;
+                        modo_cheat = 1;
+                       // easter_egg =-1;
+                     //  corriendo = 0;
                 }else{
+                modo_cheat = (modo_cheat == 1) ? 0 : 1;
                 Mix_PlayChannel(0, sonidos[1+rand()%8], 0);
                 }
 
+        }
+
+
+        if(modo_cheat){
+            if(modo==MODO_SCHONBERG && !esta_reproduciendo){
+            if(melodia.p[melodia.nota_actual] >0 && melodia.p[melodia.nota_actual] <9){
+            objetos[melodia.p[melodia.nota_actual]].debe_Renderizar =
+                (objetos[melodia.p[melodia.nota_actual]].debe_Renderizar == 0) ? 1 : 0;
+            }
+            }
         }
 
         //-------------------------------------------------------------------------------------------//
@@ -579,6 +682,7 @@ int main(int argc, char *argv[])
         // ------------------------ CREAR VENTANA AUXILIAR ------------------------------------//
         if (ventana_abierta && modo == MODO_SCHONBERG)
         {
+            Mix_PlayChannel(0, sonidos[10], 0);
             CrearVentana(&ventana_auxiliar, "Cual es tu nombre?", 400, 200);
             ingresoTexto = 1;
             ventana_abierta = 0;
@@ -587,6 +691,7 @@ int main(int argc, char *argv[])
 
         if (ventana_abierta && modo == MODO_DESAFIO)
         {
+            Mix_PlayChannel(0, sonidos[10], 0);
             CrearVentana(&ventana_auxiliar, "Ingresa el nombre del archivo", 400, 200);
             ingresoTexto = 1;
             ventana_abierta = 0;
@@ -635,6 +740,7 @@ int main(int argc, char *argv[])
 
     // ------------------------- LIMPIEZA ------------------------ //
     TTF_CloseFont(font);
+    free(melodia.p);
     TTF_Quit();
     Mix_CloseAudio();
     SDL_Quit();

@@ -233,7 +233,7 @@ void PantallasDesafio(){
 PantallaBloquearBotones();
 PantallasLimpiar();
 
-
+objetos[ID_FONDO].debe_Renderizar = 1;
 for(int i = 0; i<8;i++){
     if(notas_activas[i] == 1){
     botones[BotonesObtenerPorId(i+1)].esta_activo = 1;
@@ -280,7 +280,7 @@ botones[BotonesObtenerPorId(ID_BOTON_VOLVER)].esta_activo = 1;
 void PantallasMozart(){
 PantallaBloquearBotones();
 PantallasLimpiar();
-
+objetos[ID_FONDO].debe_Renderizar =1;
 
 for(int i = 0; i<8;i++){
     if(notas_activas[i] == 1){
@@ -316,6 +316,20 @@ objetos[ID_BLANCO].debe_Renderizar = 1;
 objetos[ID_BOTON_VOLVER].debe_Renderizar = 1;
 botones[BotonesObtenerPorId(ID_BOTON_VOLVER)].esta_activo = 1;
 }
+
+
+//---------Setea la pantalla Mozart
+void PantallasMozartWin(){
+PantallaBloquearBotones();
+PantallasLimpiar();
+
+objetos[ID_FONDO].debe_Renderizar =1;
+objetos[ID_WIN].debe_Renderizar = 1;
+objetos[ID_BOTON_VOLVER].debe_Renderizar = 1;
+
+botones[BotonesObtenerPorId(ID_BOTON_VOLVER)].esta_activo = 1;
+}
+
 
 
 

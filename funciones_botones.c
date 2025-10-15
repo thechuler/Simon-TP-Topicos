@@ -1,5 +1,6 @@
 #include "main.h"
 
+
 //------Aumenta la cantidad de notas
 void FuncionBotonSumarNota()
 {
@@ -102,6 +103,7 @@ void FuncionBotonSumarDuracion()
 //----Cierra el juego
 void FuncionBotonSalir()
 {
+
     corriendo = 0;
 }
 
@@ -109,18 +111,22 @@ void FuncionBotonSalir()
 //----Abre la pantalla Modo de juego
 void FuncionBotonModo()
 {
+    Mix_PlayChannel(0, sonidos[9], 0);
+    SDL_Delay(200);
     PantallasModos();
 }
 
 //----Vuelve al menu principal
 void FuncionBotonVolver()
 {
+    modo = MODO_MENUS;
    PantallasMenuPrincipal();
 }
 
 //---Guarda la melodia
 void FuncionBotonGuardar()
 {
+  Mix_PlayChannel(0, sonidos[9], 0);
   MelodiaGuardar(&melodia_jugador,nombre_archivo);
 }
 
@@ -130,7 +136,10 @@ void FuncionBotonMozart()
 {
     MelodiaInicializar(&melodia_jugador,5,8);
     printf("MODO MOZART \n");
+    Mix_PlayChannel(0, sonidos[10], 0);
     char* ruta = AbrirExploradorYRecuperarRuta(); //<----Busca la ruta
+  if (ruta == NULL || ruta[0] == '\0')
+        return;
     MelodiaCargar(&melodia_jugador,ruta);
     free(ruta);//<---Libera la memoria de la ruta
     MelodiaMostrarConsola(&melodia_jugador);
@@ -184,6 +193,7 @@ void FuncionNota(int id)
         break;
 
     case MODO_SCHONBERG://<-----Si esta ne modo schonberg comprueba que la nota clickeada sea = a la melodia del sistema (Aleatoria)
+        objetos[id].debe_Renderizar = 1;
         resultado = MelodiaComprobarIngreso(&melodia, id);
         break;
     }

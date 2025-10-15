@@ -36,6 +36,7 @@ void PantallasDesafio();
 void PantallasConfigs();
 void PantallaBloquearBotones();
 void PantallasMozart();
+void PantallasMozartWin();
 
 
 

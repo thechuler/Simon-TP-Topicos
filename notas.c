@@ -145,9 +145,9 @@ void MelodiaPerdioAnimacion()
 //------Logica de ronda ganada
 void MelodiaGano(melodia_t *melodia)
 {
-    if(modo == 1)
+    if(modo == MODO_MOZART)
     {
-        // corriendo =0; //VICTORIA MOZART
+       PantallasMozartWin(); //<---Victoria Mozart
     }
 
     if(modo == MODO_SCHONBERG)

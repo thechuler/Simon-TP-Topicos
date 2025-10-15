@@ -44,11 +44,22 @@
 
 #define ID_SLIME 25
 
+#define ID_WIN 26
+
 //-------------------//
 
 
 #define CANTIDAD_BOTONES 21
-#define CANTIDAD_OBJETOS 26
+#define CANTIDAD_OBJETOS 27
 
+
+
+#define MODO_SCHONBERG 0
+
+#define MODO_MOZART 1
+
+#define MODO_DESAFIO 2
+
+#define MODO_MENUS 3
 
 #endif // MACROS_H_INCLUDED

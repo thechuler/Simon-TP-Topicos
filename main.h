@@ -15,11 +15,7 @@
 #include "variables_globales.h"
 #include "sonidos.h"
 
-#define MODO_SCHONBERG 0
 
-#define MODO_MOZART 1
-
-#define MODO_DESAFIO 2
 
 
 

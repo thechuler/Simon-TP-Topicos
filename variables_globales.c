@@ -1,8 +1,9 @@
 
 #include "variables_globales.h"
+#include "sonidos.h"
 imagen_t objetos[CANTIDAD_OBJETOS]; //<------Vector Principal de imagenes. Representa todos los objetos del juego
 char corriendo = 1;  //<------- Si el juego esta o no corriendo
-int modo = 0;    //<-----El modo de juego actual
+int modo = MODO_MENUS;    //<-----El modo de juego actual
 char ventana_abierta = 0;  //<---Si hay o no una ventana auxiliar abierta
 char esta_reproduciendo = 0;  //<---- Cuando se esta o no, reproduciendo la secuencia de la melodia.
 int resultado = RESULTADO_EN_ESPERA; //<--- Resultado tras terminar una ronda
@@ -13,8 +14,8 @@ char animando_fin_ronda = 0; //<-----Si esta o no animando el final de una ronda
 char nombre_archivo[200]; //<-------Nombre del archivo que guardara la melodia.
 app_t juego; //<------Ventana principal del juego
 int notas_activas[8] ={1,1,1,0,0,0,0,0}; //<----Notas activas actualmente
-int easter_egg = 0;
-
+int easter_egg = 0;//<--- >:)
+Mix_Chunk* sonidos[11]; // <-----Lista de sonidos
 
 jugador_t jugadores_top[5] = {
     {"DUM ->?",14},
@@ -28,6 +29,11 @@ jugador_t jugadores_top[5] = {
 jugador_t jugador_actual  = {"desconocido",0}; //<-----Jugador Actual, Default "Desconocido"
 melodia_t melodia; //<-----Melodia Schonberg
 melodia_t melodia_jugador; //<-----Melodia Mozart/ Desafio
+
+
+
+
+
 
 
 
