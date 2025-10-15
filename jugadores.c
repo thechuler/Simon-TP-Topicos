@@ -9,6 +9,7 @@ int JugadorInsertarEnTop(jugador_t *jugador) {
     for (int i = 0; i < 5; i++) { //<---Recorre los 5
 
         if (jugador->puntuacion_maxima > jugadores_top[i].puntuacion_maxima) { //<--Si su puntuacion es mayor
+
             for (int j = 4; j > i; j--) { //<---Recorre desde el final hasta el principio
                 jugadores_top[j] = jugadores_top[j - 1]; //<---Envia cada valor 1 hacia atras pisando el ultimo
             }
@@ -49,6 +50,7 @@ FILE *f = fopen("topJugadores.dat","wb");
 if(!f){
     return;
 }
+
 fwrite(jugadores_top,sizeof(jugador_t),5,f);
 
 fclose(f);

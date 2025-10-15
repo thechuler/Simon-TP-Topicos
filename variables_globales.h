@@ -26,6 +26,9 @@ extern int duracion_sonido;
 extern app_t juego;
 extern int notas_activas[8];
 extern int easter_egg;
-extern Mix_Chunk *sonidos[11];
+extern Mix_Chunk *sonidos[6];
+extern Mix_Chunk *sonidos_notas_usadas[8];
+extern char party;
+extern Mix_Chunk *notas1[12];
 
 #endif // VARIABLES_GLOBALES_H_INCLUDED

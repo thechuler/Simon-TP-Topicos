@@ -145,6 +145,7 @@ void MelodiaPerdioAnimacion()
 //------Logica de ronda ganada
 void MelodiaGano(melodia_t *melodia)
 {
+
     if(modo == MODO_MOZART)
     {
        PantallasMozartWin(); //<---Victoria Mozart
@@ -165,12 +166,16 @@ void MelodiaGano(melodia_t *melodia)
 //-----Logica ronda perdida
 void MelodiaPerdio(melodia_t *melodia)
 {
+
     if(modo == MODO_SCHONBERG)
     {
         jugador_actual.puntuacion_maxima = puntuacion; //<----Guarda la puntuacion maxima del jugador
         JugadorControlarPuntuacion(&jugador_actual,RESULTADO_PERDIO);//<-----Controla si la puntuacion deberia ser aumentada
         JugadorGuardarTop(); //<------Guarda  el top
         puntuacion = 0; //<--- Reset puntuacion
+
+
+
         MelodiaReiniciar(melodia,melodia->cant_notas); //<---Reset melodia
         MelodiaAgregarAleatoria(melodia,3); //<--------Agrega 3 notas
     }
@@ -227,7 +232,7 @@ void MelodiaCargar(melodia_t *melodia,const char* ruta)
         objetos[ID_NOTAS].texturas[0] = CombinarTexturaConTexto(      //<---------Actualiza el boton de configs
         juego.renderer,
         CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
-        texto, "Symtext.ttf", 7, (SDL_Color){255, 0, 125, 255});
+        texto, "fnt/Symtext.ttf", 7, (SDL_Color){255, 0, 125, 255});
 
 
     int nota; //<--Auxiliar
@@ -236,6 +241,10 @@ void MelodiaCargar(melodia_t *melodia,const char* ruta)
     {
         MelodiaAgregarNota(&melodia_jugador,nota); //<---Las agrega a la melodia
     }
+
+
+
+
 
     fclose(f);//<--- Cierra
 }
@@ -281,7 +290,7 @@ void MelodiaAnimar(melodia_t *melodia)
 
 
 
-
+//---Logica final de ronda
 int MelodiaFinalDeRonda(melodia_t *melodia,int resultado)
 {
 
@@ -293,10 +302,13 @@ int MelodiaFinalDeRonda(melodia_t *melodia,int resultado)
     if (!animando_fin_ronda)
     {
         printf("\n GO");
-        if (resultado == RESULTADO_GANO)
+        if (resultado == RESULTADO_GANO){
             MelodiaGanoAnimacion();
-        else
+            Mix_PlayChannel(0, sonidos[5], 0); //<--- Reproduce su sonido
+       } else{
             MelodiaPerdioAnimacion();
+            Mix_PlayChannel(0, sonidos[4], 0); //<--- Reproduce su sonido
+       }
         return resultado;
     }
     else

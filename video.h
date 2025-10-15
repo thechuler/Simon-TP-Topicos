@@ -28,9 +28,9 @@ typedef struct {
 
 
 typedef struct{
-unsigned char *pixeles;
-int alto;
-int ancho;
+unsigned char *pixeles; //<---Vector que representa todos los pixeles de la imagen
+int alto; //<---Alto de la imagen
+int ancho; //<---Ancho de la imagen
 }imagen_cruda_t;
 
 typedef struct {

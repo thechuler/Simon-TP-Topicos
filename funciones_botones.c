@@ -4,19 +4,23 @@
 //------Aumenta la cantidad de notas
 void FuncionBotonSumarNota()
 {
-    if(cantidad_notas<8){
-    char texto[10];
+    Mix_PlayChannel(0, sonidos[1], 0); //<---Sonido de boton
+    if(cantidad_notas<8) //<----Solo puede sumar si hay menos de 8 notas
+    {
+        char texto[10];
         cantidad_notas++;
         snprintf(texto, sizeof(texto), "Notas: %d",cantidad_notas);
-        objetos[ID_NOTAS].texturas[0] = CombinarTexturaConTexto(
-        juego.renderer,
-        CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
-        texto, "Symtext.ttf", 7, (SDL_Color){255, 0, 125, 255});
+        objetos[ID_NOTAS].texturas[0]= CombinarTexturaConTexto(   //<------------------Actualiza el render del boton
+                                           juego.renderer,
+                                           CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+                                           texto, "fnt/Symtext.ttf", 7, (SDL_Color){255, 0, 125, 255});
         printf("Sumando Notas %d \n",cantidad_notas);
 
-        for(int i=0; i<8; i++){
-            if(notas_activas[i] == 0){
-               notas_activas[i]=1;
+        for(int i=0; i<8; i++)
+        {
+            if(notas_activas[i] == 0)
+            {
+                notas_activas[i]=1; //<---Avisa que notas estan activas actualmente
                 break;
             }
         }
@@ -26,39 +30,106 @@ void FuncionBotonSumarNota()
 }
 
 
-void FuncionSlime(){
-    if(easter_egg<0)
-        return;
 
-if(easter_egg<25  ){
-    easter_egg++;
-}else{
-easter_egg=0;
+
+
+void FuncionSlime()  //<---Funcion "Gordo Tony"
+{
+    if(easter_egg<15  ) //<--- Si easter egg es menor que 25 suma
+    {
+        easter_egg++;
+    }
+    else
+    {
+        easter_egg=0;  //<--- Si se pasa lo reinicia
+    }
 }
+
+
+
+
+//Activa el modo Party !!!
+void FuncionBotonParty()
+{
+
+    party = !party; //<---cambia el valor del modo party
+
+    if(party)
+    {
+        Mix_PlayChannel(0, sonidos[1], 0); //<---Sonido feliz :D
+        objetos[ID_PARTY].texturas[0] = CombinarTexturaConTexto(
+                                            juego.renderer,
+                                            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+                                            "Party: SI!", "fnt/Symtext.ttf", 7, (SDL_Color){255, 0, 125, 255});
+
+        notas1[0] = cargarSonido("snd/do.wav");
+        notas1[1] = cargarSonido("snd/re.wav");
+        notas1[2] = cargarSonido("snd/mi.wav");
+        notas1[3] = cargarSonido("snd/fa.wav");
+        notas1[4] = cargarSonido("snd/sol.wav");
+        notas1[5] = cargarSonido("snd/la.wav");
+        notas1[6] = cargarSonido("snd/si.wav");       //<-----------------Sonido Criaturas (definitivamente mas divertido)
+        notas1[7] = cargarSonido("snd/doa.wav");
+        notas1[8] = cargarSonido("snd/fa#.wav");
+        notas1[9] = cargarSonido("snd/la#.wav");
+        notas1[10] = cargarSonido("snd/mib.wav");
+        notas1[11] = cargarSonido("snd/lab.wav");
+    }
+    else
+    {
+        Mix_PlayChannel(0, sonidos[2], 0); //<---Sonido triste :(
+        objetos[ID_PARTY].texturas[0] = CombinarTexturaConTexto(
+                                            juego.renderer,
+                                            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+                                            "Party: no :(", "fnt/Symtext.ttf", 7, (SDL_Color)
+        {255, 0, 125, 255});
+
+        notas1[0] = cargarSonido("snd/do1.wav");
+        notas1[1] = cargarSonido("snd/re1.wav");
+        notas1[2] = cargarSonido("snd/mi1.wav");
+        notas1[3] = cargarSonido("snd/fa1.wav");
+        notas1[4] = cargarSonido("snd/sol1.wav");       //<-------Sonido Notas (Aburrido pero promocionable)
+        notas1[5] = cargarSonido("snd/la1.wav");
+        notas1[6] = cargarSonido("snd/si1.wav");
+        notas1[7] = cargarSonido("snd/doa1.wav");
+        notas1[8] = cargarSonido("snd/fa#1.wav");
+        notas1[9] = cargarSonido("snd/la#1.wav");
+        notas1[10] = cargarSonido("snd/mib1.wav");
+        notas1[11] = cargarSonido("snd/lab1.wav");
+    }
+
+
+
 }
 
 
-//------Reduce la cantidad de notas
+
+
+//------Reduce la cantidad de notas--
 void FuncionBotonRestarNota()
 {
-      if(cantidad_notas>1){
-    char texto[10];
+    Mix_PlayChannel(0, sonidos[2], 0); //<----Sonido boton
+    if(cantidad_notas>1) //<---Solo si hay mas de 1 nota
+    {
+        char texto[10];
         cantidad_notas--;
-         snprintf(texto, sizeof(texto), "Notas: %d",cantidad_notas);
-        objetos[ID_NOTAS].texturas[0] = CombinarTexturaConTexto(
-            juego.renderer,
-            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
-            texto, "Symtext.ttf", 7, (SDL_Color){255, 0, 125, 255});
-    printf("Restando Notas %d \n",cantidad_notas);
+        snprintf(texto, sizeof(texto), "Notas: %d",cantidad_notas);
 
-     for(int i=8; i>0; i--){
-            if(notas_activas[i] ==1){
-               notas_activas[i]=0;
+        objetos[ID_NOTAS].texturas[0] = CombinarTexturaConTexto(
+                                            juego.renderer,
+                                            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+                                            texto, "fnt/Symtext.ttf", 7, (SDL_Color){255, 0, 125, 255});
+
+        printf("Restando Notas %d \n",cantidad_notas);
+
+        for(int i=8; i>0; i--)
+        {
+            if(notas_activas[i] ==1)
+            {
+                notas_activas[i]=0;// <---Avisa que notas estan activas
                 break;
             }
         }
-
-
 
     }
 }
@@ -67,31 +138,37 @@ void FuncionBotonRestarNota()
 //----Reduce la duracion de un sonido
 void FuncionBotonRestarDuracion()
 {
-    if(duracion_sonido>2000){
+    Mix_PlayChannel(0, sonidos[2], 0); //<---Sonido boton
+    if(duracion_sonido>2000){ //<---Mientras que la duracion sea al menos 2000
                char texto[12];
            duracion_sonido -= 100;
-         snprintf(texto, sizeof(texto), "Dur: %d ms",duracion_sonido);
-        objetos[ID_DURACION].texturas[0] = CombinarTexturaConTexto(
+            snprintf(texto, sizeof(texto), "Dur: %dms",duracion_sonido);
+            objetos[ID_DURACION].texturas[0] = CombinarTexturaConTexto(
             juego.renderer,
             CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
-            texto, "Symtext.ttf", 7, (SDL_Color){255, 0, 125, 255});
+            texto, "fnt/Symtext.ttf", 7, (SDL_Color){255, 0, 125, 255});
        printf("Restando Duracion %d \n",duracion_sonido);
     }
 }
 
+
+
+
 //---Aumenta la duracion de un sonido
 void FuncionBotonSumarDuracion()
 {
-      if(duracion_sonido<3000){
+    Mix_PlayChannel(0, sonidos[1], 0); //<---Sonido Boton
+    if(duracion_sonido<3000)   //<----Mientras duracion sea menor a 3000
+    {
         char texto[12];
         duracion_sonido += 100;
         snprintf(texto, sizeof(texto), "Dur: %dms",duracion_sonido);
         objetos[ID_DURACION].texturas[0] = CombinarTexturaConTexto(
-            juego.renderer,
-            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
-            texto, "Symtext.ttf", 7, (SDL_Color){255, 0, 125, 255});
+                                               juego.renderer,
+                                               CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+                                               texto, "fnt/Symtext.ttf", 7, (SDL_Color){255, 0, 125, 255});
         printf("Sumando Duracion %d \n",duracion_sonido);
-      }
+    }
 
 
 }
@@ -103,30 +180,47 @@ void FuncionBotonSumarDuracion()
 //----Cierra el juego
 void FuncionBotonSalir()
 {
-
     corriendo = 0;
 }
+
+
+
+
 
 
 //----Abre la pantalla Modo de juego
 void FuncionBotonModo()
 {
-    Mix_PlayChannel(0, sonidos[9], 0);
+    Mix_PlayChannel(0, sonidos[1], 0); //<---Sonido Boton
     SDL_Delay(200);
     PantallasModos();
 }
 
+
+
 //----Vuelve al menu principal
 void FuncionBotonVolver()
 {
-    modo = MODO_MENUS;
+    Mix_PlayChannel(0, sonidos[1], 0); //<---Sonido Boton
+    if(modo==MODO_SCHONBERG){ //<---Si el modo es schonberg chequea la puntuacion maxima
+           jugador_actual.puntuacion_maxima = puntuacion;
+           JugadorInsertarEnTop(&jugador_actual);
+           JugadorGuardarTop();
+           objetos[ID_TOP].texturas[0] = CrearTexturaTopJugadores(juego.renderer, TTF_OpenFont("fnt/Symtext.ttf",34), jugadores_top, 5); //<---Actualiza top       //<--------Actualiza el render de puntuacion
+
+
+    }
+
+   modo = MODO_MENUS;
    PantallasMenuPrincipal();
 }
+
+
 
 //---Guarda la melodia
 void FuncionBotonGuardar()
 {
-  Mix_PlayChannel(0, sonidos[9], 0);
+  Mix_PlayChannel(0, sonidos[1], 0);  //<---Sonido Boton
   MelodiaGuardar(&melodia_jugador,nombre_archivo);
 }
 
@@ -136,7 +230,7 @@ void FuncionBotonMozart()
 {
     MelodiaInicializar(&melodia_jugador,5,8);
     printf("MODO MOZART \n");
-    Mix_PlayChannel(0, sonidos[10], 0);
+    Mix_PlayChannel(0, sonidos[2], 0);  //<---Sonido Boton
     char* ruta = AbrirExploradorYRecuperarRuta(); //<----Busca la ruta
   if (ruta == NULL || ruta[0] == '\0')
         return;
@@ -174,6 +268,7 @@ void FuncionBotonDesafio()
 //-Abre la pantalla configs
 void FuncionBotonConfigs()
 {
+    Mix_PlayChannel(0, sonidos[1], 0);
     PantallasConfigs();
 }
 

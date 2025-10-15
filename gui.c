@@ -160,6 +160,8 @@ objetos[ID_RESTAR_DURACION].debe_Renderizar = 1;
 botones[BotonesObtenerPorId(ID_RESTAR_DURACION)].esta_activo = 1;
 
 
+objetos[ID_PARTY].debe_Renderizar = 1;
+botones[BotonesObtenerPorId(ID_PARTY)].esta_activo = 1;
 
 
 

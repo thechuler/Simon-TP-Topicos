@@ -169,7 +169,7 @@ void CargarPixelesDesdeBinario(const char* ruta,imagen_cruda_t *img){
 
 
 
-
+//---Aplica un filtro de color a una imagen y la pasa a rgba
 void AplicarFiltroYConvertir(imagen_cruda_t *imagen, SDL_Color color)
 {
     int cantidad_pixeles = imagen->alto * imagen->ancho;
@@ -186,7 +186,7 @@ void AplicarFiltroYConvertir(imagen_cruda_t *imagen, SDL_Color color)
         pixels_rgba[i * 4 + 1] = (g * color.g) / 255;
         pixels_rgba[i * 4 + 2] = (b * color.b) / 255;
 
-        pixels_rgba[i * 4 + 3] = (r == 0 && g == 0 && b == 0) ? 0 : 255;
+        pixels_rgba[i * 4 + 3] = (r == 0 && g == 0 && b == 0) ? 0 : 255; //<---El negro lo ignora
     }
 
     free(imagen->pixeles);
@@ -195,7 +195,7 @@ void AplicarFiltroYConvertir(imagen_cruda_t *imagen, SDL_Color color)
 
 
 
-
+//-------Pasa de rgb a rgba sin aplicar el filtro
 void ConvertirRGBaRGBA(imagen_cruda_t *imagen)
 {
     int cantidad_pixeles = imagen->alto * imagen->ancho;
@@ -227,7 +227,7 @@ void ConvertirRGBaRGBA(imagen_cruda_t *imagen)
 
 
 
-
+//-------Carga una textura desde un binario
 SDL_Texture* CargarTexturaDesdeBinario(const char* ruta, SDL_Renderer* renderer,SDL_Color *filtro)
 {
     imagen_cruda_t img;
@@ -266,7 +266,7 @@ SDL_Texture* CargarTexturaDesdeBinario(const char* ruta, SDL_Renderer* renderer,
 
 
 
-
+//----Carga varias texturas desde un binario
 void CargarAnimaciondesdeBinario(const char* nombre,SDL_Color *color,SDL_Texture **texturas,SDL_Renderer *renderer){
 
 char ruta_completa[256];

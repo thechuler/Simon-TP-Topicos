@@ -46,11 +46,13 @@
 
 #define ID_WIN 26
 
+#define ID_PARTY 27
+
 //-------------------//
 
 
-#define CANTIDAD_BOTONES 21
-#define CANTIDAD_OBJETOS 27
+#define CANTIDAD_BOTONES 22
+#define CANTIDAD_OBJETOS 28
 
 
 

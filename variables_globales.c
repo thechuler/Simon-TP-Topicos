@@ -9,24 +9,27 @@ char esta_reproduciendo = 0;  //<---- Cuando se esta o no, reproduciendo la secu
 int resultado = RESULTADO_EN_ESPERA; //<--- Resultado tras terminar una ronda
 int puntuacion = 0;  //<-----Puntuacion del jugador
 int cantidad_notas = 3; //<------Cantidad de notas activas (por defecto 3)
-int duracion_sonido = 2000;  //<------- Duracion de cada nota (Por defecto 2sg)
+int duracion_sonido = 2000;  //<------- Duracion de cada nota en milisegundos (Por defecto 2sg)
 char animando_fin_ronda = 0; //<-----Si esta o no animando el final de una ronda
 char nombre_archivo[200]; //<-------Nombre del archivo que guardara la melodia.
 app_t juego; //<------Ventana principal del juego
 int notas_activas[8] ={1,1,1,0,0,0,0,0}; //<----Notas activas actualmente
 int easter_egg = 0;//<--- >:)
-Mix_Chunk* sonidos[11]; // <-----Lista de sonidos
+Mix_Chunk* sonidos[6]; // <-----Lista de sonidos
+Mix_Chunk *sonidos_notas_usadas[8];//<--- Valor actual de los sonidos de cada nota
+char party = 0; //<-------Cuando el modo fiesta esta o no activo
+Mix_Chunk *notas1[12];//<------------Los sonidos que pueden tomar las notas
 
 jugador_t jugadores_top[5] = {
-    {"DUM ->?",14},
-    {"Compi",0},
-    {"Cami",0},      //<----------Valores default del top 5 mejores jugadores
-    {"ShuleTk",0},
+    {"Shule",0},
+    {"Cami",0},
+    {"CoffeB",0},      //<----------Valores default del top 5 mejores jugadores
+    {"Pancho",0},
     {"Jair17",0},
     };
 
 
-jugador_t jugador_actual  = {"desconocido",0}; //<-----Jugador Actual, Default "Desconocido"
+jugador_t jugador_actual  = {"????",0}; //<-----Jugador Actual, Default "Desconocido"
 melodia_t melodia; //<-----Melodia Schonberg
 melodia_t melodia_jugador; //<-----Melodia Mozart/ Desafio
 
@@ -67,6 +70,7 @@ melodia_t melodia_jugador; //<-----Melodia Mozart/ Desafio
         { &objetos[ID_SUMAR_DURACION], FuncionBotonSumarDuracion,  0 ,ID_SUMAR_DURACION},
         { &objetos[ID_RESTAR_DURACION], FuncionBotonRestarDuracion,  0 ,ID_RESTAR_DURACION},
         { &objetos[ID_SLIME], FuncionSlime,  0 ,ID_SLIME},
+        { &objetos[ID_PARTY], FuncionBotonParty,  0 ,ID_PARTY},
     };
     //-----------------------------------------------------------------------------------//
 

@@ -1,6 +1,15 @@
 #include "main.h"
 #include <SDL2/SDL_mixer.h>
 
+/*
+Apellido: Campos, Ricardo Julian
+DNI: 43994534
+Entrega: Si
+
+
+Desconozco los datos de los otros dos integrantes del grupo.
+Esta entrega fue realizada en su totalidad por Campos,R. Julian.
+*/
 int main(int argc, char *argv[])
 {
 
@@ -9,8 +18,7 @@ int main(int argc, char *argv[])
     char ingresoTexto = 0;      //<---Cuando se esta o no ingresando texto
     char botones_activos = 1;   //<--- Cuando los botones se pueden clickear o no
     char texto[256] = "";       // <--- Variable auxiliar para ingreso de texto
-
-    int modo_cheat = 0;
+    int modo_cheat = 0;         //<----Cuando el modo cheat esta o no activo
 
 
 
@@ -35,6 +43,9 @@ int main(int argc, char *argv[])
         return 1;
     }
     //-------------------------------------------------------------------------//
+
+
+
 
 
 
@@ -64,16 +75,6 @@ int main(int argc, char *argv[])
 
 
 
-
-    // ------------------------- TEXTURAS ------------------------ //
-    JugadoresCargar();
-    SDL_Texture *topJugadoresTex[1] = { CrearTexturaTopJugadores(juego.renderer, font, jugadores_top, 5)}; //<--- Textura top
-
-
-
-
-
-
     //-------------------------COLORES--------------------------//
 
     SDL_Color colores_notas[10] =
@@ -89,17 +90,24 @@ int main(int argc, char *argv[])
         {0, 0, 0, 50}, // desactivado
     };
 
+    //--------------------------------------------------//
 
 
 
-//-----------------------------------------------------------//
 
 
 
 
-//--------------------------------CREACION DE TEXTURAS-------------------------------//
 
 
+
+    //--------------------------------CREACION DE TEXTURAS-------------------------------//
+    JugadoresCargar();
+    SDL_Texture *topJugadoresTex[1] = { CrearTexturaTopJugadores(juego.renderer, font, jugadores_top, 5)}; //<--- Textura top
+
+
+
+    //-----Texturas Notas
     SDL_Texture *texturas_azul[6];
     CargarAnimaciondesdeBinario("slime",&colores_notas[ID_AZUL],texturas_azul,juego.renderer);
 
@@ -130,7 +138,6 @@ int main(int argc, char *argv[])
     SDL_Texture *texturas_desactivado[6];
     CargarAnimaciondesdeBinario("slime",&colores_notas[8],texturas_desactivado,juego.renderer);
 
-
     SDL_Texture **texturas_slimes[10]={
         texturas_rosa,
         texturas_azul,
@@ -141,10 +148,12 @@ int main(int argc, char *argv[])
         texturas_naranja,
         texturas_blanco,
         texturas_negro,
-        texturas_desactivado};
+        texturas_desactivado
+    };
 
 
 
+    //--Boton de jugar
     SDL_Texture *botonJugar[2] =
     {
         CombinarTexturaConTexto(
@@ -156,6 +165,7 @@ int main(int argc, char *argv[])
     };
 
 
+    //--Boton de configs
     SDL_Texture *botonConfigs[2] =
     {
         CombinarTexturaConTexto(
@@ -166,6 +176,8 @@ int main(int argc, char *argv[])
         CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
     };
 
+
+    //--Boton de salir
     SDL_Texture *botonSalir[2] =
     {
         CombinarTexturaConTexto(
@@ -177,6 +189,7 @@ int main(int argc, char *argv[])
     };
 
 
+    //--Boton Schonberg
     SDL_Texture *botonSchonberg[2] =
     {
         CombinarTexturaConTexto(
@@ -188,6 +201,7 @@ int main(int argc, char *argv[])
     };
 
 
+    //--Boton Mozart
     SDL_Texture *botonMozart[2] =
     {
         CombinarTexturaConTexto(
@@ -198,6 +212,8 @@ int main(int argc, char *argv[])
         CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
     };
 
+
+    //--Boton Desafio
     SDL_Texture *botonDesafio[2] =
     {
         CombinarTexturaConTexto(
@@ -208,6 +224,8 @@ int main(int argc, char *argv[])
         CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
     };
 
+
+    //--Boton Guardar
     SDL_Texture *botonGuardar[2] =
     {
         CombinarTexturaConTexto(
@@ -219,6 +237,8 @@ int main(int argc, char *argv[])
     };
 
 
+
+    //--Boton Sumar
     SDL_Texture *botonSumar[2] =
     {
         CombinarTexturaConTexto(
@@ -230,6 +250,7 @@ int main(int argc, char *argv[])
     };
 
 
+    //--Boton Restar
     SDL_Texture *botonRestar[2] =
     {
         CombinarTexturaConTexto(
@@ -240,6 +261,8 @@ int main(int argc, char *argv[])
         CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
     };
 
+
+    //--Puntaje
     SDL_Texture *puntajeText =
         CombinarTexturaConTexto(
             juego.renderer,
@@ -247,6 +270,7 @@ int main(int argc, char *argv[])
             "0", "fnt/Symtext.ttf", 10, colores_notas[0]);
 
 
+    //--Boton Cantidad de notas
     SDL_Texture *cant_notas =
         CombinarTexturaConTexto(
             juego.renderer,
@@ -254,6 +278,7 @@ int main(int argc, char *argv[])
             "NOTAS: 3", "fnt/Symtext.ttf", 7, colores_notas[0]);
 
 
+    //--Boton Duracion
     SDL_Texture *botonDuracion =
         CombinarTexturaConTexto(
             juego.renderer,
@@ -261,15 +286,32 @@ int main(int argc, char *argv[])
             "Dur: 2000ms", "fnt/Symtext.ttf", 6, colores_notas[0]);
 
 
+    //--Boton Party
+    SDL_Texture *botonParty[2] =
+    {
+        CombinarTexturaConTexto(
+            juego.renderer,
+            CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),
+            "Party: no", "fnt/Symtext.ttf", 6, colores_notas[0]
+        ),
+        CargarTexturaDesdeBinario("img/boton2.bin", juego.renderer,NULL),
+    };
 
-    SDL_Texture *fondo = CargarTexturaDesdeBinario("img/fondo1.bin", juego.renderer,NULL);
-    SDL_Texture *home = CargarTexturaDesdeBinario("img/home1.bin", juego.renderer,NULL);
-
-    SDL_Texture *win = CargarTexturaDesdeBinario("img/win1.bin", juego.renderer,NULL);
 
 
+    SDL_Texture *fondo = CargarTexturaDesdeBinario("img/fondo1.bin", juego.renderer,NULL);  //<----Fondo
+    SDL_Texture *home = CargarTexturaDesdeBinario("img/home1.bin", juego.renderer,NULL);  //<---Home
+    SDL_Texture *win = CargarTexturaDesdeBinario("img/win1.bin", juego.renderer,NULL);//<----Win Mozart
 
-  //---------------------------------------------------------------------------------//
+    //---------------------------------------------------------------------------------//
+
+
+
+
+
+
+
+
 
 
 
@@ -309,20 +351,17 @@ int main(int argc, char *argv[])
     objetos[ID_NOTAS] = ImagenCrear(&juego, 1, &cant_notas, 100, 400, 50, 250, ANIMACION_RESET, ID_NOTAS);
     objetos[ID_SLIME] = ImagenCrear(&juego, 6, texturas_slimes[0], 260, 220, 260, 100, ANIMACION_RESET, ID_SLIME);
     objetos[ID_WIN] = ImagenCrear(&juego, 6, &win, 100, 500, 100, 200, ANIMACION_RESET, ID_WIN);
+   objetos[ID_PARTY] = ImagenCrear(&juego, 2, botonParty, 100, 400, 50, 350, ANIMACION_RESET, ID_PARTY);
 
     //---------------------------------------------------------------------------------------------------------------//
 
 
- Mix_Chunk *notas1[12];
- Mix_Chunk *notas_usadas[8];
 
 
 
 
-    sonidos[0] = cargarSonido("snd/sonido.wav");
-    sonidos[9] = cargarSonido("snd/guisfx1.wav");
-    sonidos[10] = cargarSonido("snd/guisfx2.wav");
 
+    //-----------------------------INICIALIZACION DE SONIDOS----------------------------//
 
     notas1[0] = cargarSonido("snd/do1.wav");
     notas1[1] = cargarSonido("snd/re1.wav");
@@ -338,8 +377,24 @@ int main(int argc, char *argv[])
     notas1[11] = cargarSonido("snd/lab1.wav");
 
 
+    sonidos[0] = cargarSonido("snd/sonido.wav");
+    sonidos[1] = cargarSonido("snd/guisfx1.wav");
+    sonidos[2] = cargarSonido("snd/guisfx2.wav");
+    sonidos[3] = cargarSonido("snd/sol.wav");
+    sonidos[4] = cargarSonido("snd/fail.wav");
+    sonidos[5] = cargarSonido("snd/win.wav");
 
 
+    sonidos_notas_usadas[0] = notas1[0];
+    sonidos_notas_usadas[1] = notas1[1];
+    sonidos_notas_usadas[2] = notas1[2];
+    sonidos_notas_usadas[3] = notas1[3]; //<---------Escala Mayor
+    sonidos_notas_usadas[4] = notas1[4];
+    sonidos_notas_usadas[5] = notas1[5];
+    sonidos_notas_usadas[6] = notas1[6];
+    sonidos_notas_usadas[7] = notas1[7];
+
+//-------------------------------------------------------------------------------------------//
 
 
 
@@ -353,6 +408,13 @@ int main(int argc, char *argv[])
 
     PantallasMenuPrincipal(); //<---Pone el juego en la pantalla principal
     SDL_Event e;               //<--- Eventos
+    modo_cheat = 0;            //<----Modo cheat desactivado por default
+
+
+
+
+
+
 
 
 
@@ -367,15 +429,28 @@ int main(int argc, char *argv[])
 
 
 
-    if(modo != 5){
-        for(int i=0;i<8;i++){
-        if(notas_activas[i] != 1){
-             objetos[i+1].texturas = texturas_slimes[9]; //<----Desactiva
-             }else{
-              objetos[i+1].texturas = texturas_slimes[i+1];
-             }
+
+        //---------------------------LOGICA NOTAS ACTIVAS VISUAL-----------------------------------//
+        if(modo != MODO_MENUS)
+        {
+            for(int i=0; i<8; i++)
+            {
+                if(notas_activas[i] != 1)
+                {
+                    objetos[i+1].texturas = texturas_slimes[9]; //<----Desactiva la textura de la nota
+                }
+                else
+                {
+                    objetos[i+1].texturas = texturas_slimes[i+1]; //<-------Le aplica su textura
+                }
+            }
         }
-     }
+     //-----------------------------------------------------------------------------//
+
+
+
+
+
 
 
 
@@ -383,9 +458,10 @@ int main(int argc, char *argv[])
         {
 
 
-
             if (e.type == SDL_QUIT)  //<---Cerrar el juego
                 corriendo = 0;
+
+
 
 
             //--------------Si detecta un click-------------------------//
@@ -400,26 +476,40 @@ int main(int argc, char *argv[])
 
 
 
+
+
             //----------------------Si detecta entrada de texto---------------------------------//
             if (e.type == SDL_TEXTINPUT)
-                strcat(texto, e.text.text);
+            {
+
+
+                if (strlen(texto) < 8)  //<---Limita los textos a 8 caracteres
+                {
+                    strcat(texto, e.text.text);
+                }
+                else
+                {
+
+                    Mix_PlayChannel(-1, sonidos[2], 0); //<---Sonido de alerta si intenta agregar mas caracteres
+                }
+            }
+
 
 
             if (e.type == SDL_KEYDOWN)
             {
-                if (e.key.keysym.sym == SDLK_BACKSPACE && strlen(texto) > 0) //<----Borrar letras
+                if (e.key.keysym.sym == SDLK_BACKSPACE && strlen(texto) > 0) //<----Borrar letras si se apreta suprimir
                 {
                     texto[strlen(texto) - 1] = '\0';
                 }
 
-                else if (e.key.keysym.sym == SDLK_RETURN) //<-----Ingresar Texto
+                else if (e.key.keysym.sym == SDLK_RETURN) //<-----Ingresar Texto si apreta enter
                 {
 
                     if(modo == MODO_SCHONBERG)       //<-------- En el modo SCHONBERG el texto es el nombre del jugador
                     {
                         strcpy(jugador_actual.nombre,texto);
                         printf("NUEVO JUGADOR: %s\n", texto);
-                        modo = MODO_SCHONBERG;
                         MelodiaAnimar(&melodia);
                         esta_reproduciendo = 1;
                         PantallasSchonberg();
@@ -477,7 +567,7 @@ int main(int argc, char *argv[])
 
             if (modo == MODO_MOZART)
                 resultado = MelodiaFinalDeRonda(&melodia_jugador, RESULTADO_GANO);//<----Comprueba siguiente estado
-            //Aca se podria haber una pantalla de victoria
+
             break;
 
 
@@ -487,15 +577,15 @@ int main(int argc, char *argv[])
             if (modo == MODO_SCHONBERG)
             {
                 resultado = MelodiaFinalDeRonda(&melodia, RESULTADO_PERDIO);//<-------Comprueba siguiente estado
-                objetos[ID_TOP].texturas[0] = CrearTexturaTopJugadores(juego.renderer, font, jugadores_top, 5); //<---Actualiza top
+                 objetos[ID_TOP].texturas[0] = CrearTexturaTopJugadores(juego.renderer, font, jugadores_top, 5); //<---Actualiza top
+                 objetos[ID_PUNTAJE].texturas[0] =  CombinarTexturaConTexto(juego.renderer,CargarTexturaDesdeBinario("img/boton1.bin", juego.renderer,NULL),"0", "fnt/arial.ttf", 10, colores_notas[0]); //<---Actualiza puntaje
             }
 
             if (modo == MODO_MOZART)
                 resultado = MelodiaFinalDeRonda(&melodia_jugador, RESULTADO_PERDIO);//<---Comprueba siguiente estado
             break;
 
-        default:
-            break;
+
         }
         //--------------------------------------------------------------------------------------------//
 
@@ -545,136 +635,150 @@ int main(int argc, char *argv[])
 
 
 
+
+
+
+
+
+
         // ------------------------------------ SONIDOS --------------------------------------------//
-        for (int i = ID_AZUL; i <= ID_BLANCO; i++) //<---Sonidos para cada nota
+        for (int i = ID_AZUL; i <= ID_BLANCO; i++) //<---Recorre cada nota y aplica Sonidos para cada una
         {
             if (objetos[i].frame_actual == 3 && !animando_fin_ronda)  //<---Si no esta animando el fin de la ronda y tiene la boca abierta
             {
-                switch (cantidad_notas){
+
+
+                //--Dependiendo de la cantidad de notas aplica una de las escalas
+                switch (cantidad_notas)
+                {
                 case 3:
 
-                    notas_usadas[0] = notas1[0];
-                    notas_usadas[1] = notas1[2];
-                    notas_usadas[2] = notas1[4];//<--------- Acorde Mayor
+                    sonidos_notas_usadas[0] = notas1[0];
+                    sonidos_notas_usadas[1] = notas1[2];
+                    sonidos_notas_usadas[2] = notas1[4];//<--------- Acorde Mayor
 
                     break;
 
                 case 4:
-                    notas_usadas[0] = notas1[0];
-                    notas_usadas[1] = notas1[2];
-                    notas_usadas[2] = notas1[4];
-                    notas_usadas[3] = notas1[5]; //<--------- Acorde Mayor con sexta
+                    sonidos_notas_usadas[0] = notas1[0];
+                    sonidos_notas_usadas[1] = notas1[2];
+                    sonidos_notas_usadas[2] = notas1[4];
+                    sonidos_notas_usadas[3] = notas1[5]; //<--------- Acorde Mayor con sexta
                     break;
 
                 case 5:
-                    notas_usadas[0] = notas1[0];
-                    notas_usadas[1] = notas1[1];
-                    notas_usadas[2] = notas1[2];
-                    notas_usadas[3] = notas1[4]; //<---------Escala Menor Pentatonica
-                    notas_usadas[4] = notas1[5];
+                    sonidos_notas_usadas[0] = notas1[0];
+                    sonidos_notas_usadas[1] = notas1[1];
+                    sonidos_notas_usadas[2] = notas1[2];
+                    sonidos_notas_usadas[3] = notas1[4]; //<---------Escala Menor Pentatonica
+                    sonidos_notas_usadas[4] = notas1[5];
                     break;
 
                 case 6:
-                    notas_usadas[0] = notas1[0];
-                    notas_usadas[1] = notas1[1];
-                    notas_usadas[2] = notas1[2];
-                    notas_usadas[3] = notas1[8]; //<---------Escala Menor Hexatonal
-                    notas_usadas[4] = notas1[11];
-                    notas_usadas[5] = notas1[9];
+                    sonidos_notas_usadas[0] = notas1[0];
+                    sonidos_notas_usadas[1] = notas1[1];
+                    sonidos_notas_usadas[2] = notas1[2];
+                    sonidos_notas_usadas[3] = notas1[8]; //<---------Escala Menor Hexatonal
+                    sonidos_notas_usadas[4] = notas1[11];
+                    sonidos_notas_usadas[5] = notas1[9];
                     break;
 
 
                 case 7:
-                    notas_usadas[0] = notas1[0];
-                    notas_usadas[1] = notas1[1];
-                    notas_usadas[2] = notas1[10];
-                    notas_usadas[3] = notas1[3]; //<---------Escala Menor Armonica
-                    notas_usadas[4] = notas1[4];
-                    notas_usadas[5] = notas1[11];
-                    notas_usadas[6] = notas1[6];
+                    sonidos_notas_usadas[0] = notas1[0];
+                    sonidos_notas_usadas[1] = notas1[1];
+                    sonidos_notas_usadas[2] = notas1[10];
+                    sonidos_notas_usadas[3] = notas1[3]; //<---------Escala Menor Armonica
+                    sonidos_notas_usadas[4] = notas1[4];
+                    sonidos_notas_usadas[5] = notas1[11];
+                    sonidos_notas_usadas[6] = notas1[6];
                     break;
 
                 default:
-                    notas_usadas[0] = notas1[0];
-                    notas_usadas[1] = notas1[1];
-                    notas_usadas[2] = notas1[2];
-                    notas_usadas[3] = notas1[3]; //<---------Escala Mayor
-                    notas_usadas[4] = notas1[4];
-                    notas_usadas[5] = notas1[5];
-                    notas_usadas[6] = notas1[6];
-                    notas_usadas[7] = notas1[7];
+                    sonidos_notas_usadas[0] = notas1[0];
+                    sonidos_notas_usadas[1] = notas1[1];
+                    sonidos_notas_usadas[2] = notas1[2];
+                    sonidos_notas_usadas[3] = notas1[3]; //<---------Escala Mayor
+                    sonidos_notas_usadas[4] = notas1[4];
+                    sonidos_notas_usadas[5] = notas1[5];
+                    sonidos_notas_usadas[6] = notas1[6];
+                    sonidos_notas_usadas[7] = notas1[7];
                     break;
                 }
 
-                    Mix_PlayChannel(0, notas_usadas[i-1], 0); //<--- Reproduce su sonido
+                Mix_PlayChannel(0, sonidos_notas_usadas[i-1], 0); //<--- Reproduce su sonido
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                if(cantidad_notas >1)  //<--- Si hay mas de 1 nota se aplica una reduccion en el tiempo total
+                if(!party) //<---Si el modo party esta activo, la duracion de las notas es la minima
                 {
-                    SDL_Delay(duracion_sonido - ((duracion_sonido*0.03))* melodia.cant_notas ); //<-- -3% por nota
-                    Mix_HaltChannel(0);
+
+                    if(cantidad_notas >1)  //<--- Si hay mas de 1 nota se aplica una reduccion en el tiempo total
+                    {
+                        SDL_Delay(duracion_sonido - ((duracion_sonido*0.03))* melodia.cant_notas ); //<-- -3% por nota
+                        Mix_HaltChannel(0); //<---Corta el sonido
+                    }
+                    else
+                    {
+                        SDL_Delay(duracion_sonido); //<--- Si hay solo 1, simplemente no se aplica
+                        Mix_HaltChannel(0);//<---Corta el sonido
+                    }
+
+
                 }
-                else
+
+            }
+
+        }
+    //-------------------------------------------------------------------------------------//
+
+
+
+
+
+
+
+        //-----------------------EASTER EGGS :O----------------------//
+        if(objetos[ID_SLIME].frame_actual == 3 ) //<---Si "El gordo Tony" tiene la boca abierta
+        {
+            if(easter_egg == 14)  //<---- y Easter Eggs es 14
+            {
+                Mix_PlayChannel(0, sonidos[0], 0); //<---Sonido ¡Loco!
+                SDL_Delay(1000); //<----Delay
+                modo_cheat = 1; //<---Modo Cheat Activo B)
+            }
+            else
+            {
+                modo_cheat = (modo_cheat == 1) ? 0 : 1; //<--Si Easter Eggs no es 14 reinicia modo cheat a 0
+                Mix_PlayChannel(0, sonidos[3], 0); //<--- "El gordo Tony" hace un sonido normal.
+            }
+        }
+
+
+        if(modo_cheat) //<----Si esta activo el modo cheat hace parpadear la siguiente nota a ingresar
+        {
+            if(modo==MODO_SCHONBERG && !esta_reproduciendo)
+            {
+                if(melodia.p[melodia.nota_actual] >0 && melodia.p[melodia.nota_actual] <9)
                 {
-                    SDL_Delay(duracion_sonido); //<--- Si hay solo 1, simplemente no se aplica
-                   Mix_HaltChannel(0);
+                    objetos[melodia.p[melodia.nota_actual]].debe_Renderizar =
+                    (objetos[melodia.p[melodia.nota_actual]].debe_Renderizar == 0) ? 1 : 0;
                 }
-
-            }
-
-        }
-//-------------------------------------------------------------------------------------//
-
-
-
-
-
-        //-----------------------EASTER EGG :O----------------------//
-        if(easter_egg == -1 && !objetos[ID_SLIME].frame_actual == 0){
-            corriendo = 0;
-        }
-
-        if(objetos[ID_SLIME].frame_actual == 3 ){
-                if(easter_egg == 14){
-                       Mix_PlayChannel(0, sonidos[0], 0);
-                        SDL_Delay(1000);
-                        modo_cheat = 1;
-                       // easter_egg =-1;
-                     //  corriendo = 0;
-                }else{
-                modo_cheat = (modo_cheat == 1) ? 0 : 1;
-                Mix_PlayChannel(0, sonidos[1+rand()%8], 0);
-                }
-
-        }
-
-
-        if(modo_cheat){
-            if(modo==MODO_SCHONBERG && !esta_reproduciendo){
-            if(melodia.p[melodia.nota_actual] >0 && melodia.p[melodia.nota_actual] <9){
-            objetos[melodia.p[melodia.nota_actual]].debe_Renderizar =
-                (objetos[melodia.p[melodia.nota_actual]].debe_Renderizar == 0) ? 1 : 0;
-            }
             }
         }
 
-        //-------------------------------------------------------------------------------------------//
+
+        if(party) //<----El fondo parpadea en el modo party! ¡QUE LOCO!
+        {
+            objetos[ID_FONDO].debe_Renderizar =
+            (objetos[ID_FONDO].debe_Renderizar == 0) ? 1 : 0;
+        }
+
+    //-------------------------------------------------------------------------------------------//
+
+
+
+
 
 
 
@@ -682,8 +786,8 @@ int main(int argc, char *argv[])
         // ------------------------ CREAR VENTANA AUXILIAR ------------------------------------//
         if (ventana_abierta && modo == MODO_SCHONBERG)
         {
-            Mix_PlayChannel(0, sonidos[10], 0);
-            CrearVentana(&ventana_auxiliar, "Cual es tu nombre?", 400, 200);
+            Mix_PlayChannel(0, sonidos[2], 0);
+            CrearVentana(&ventana_auxiliar, "Cual es tu nombre?", 400, 200);  //<----Ventana para ingreso de texto
             ingresoTexto = 1;
             ventana_abierta = 0;
         }
@@ -691,24 +795,25 @@ int main(int argc, char *argv[])
 
         if (ventana_abierta && modo == MODO_DESAFIO)
         {
-            Mix_PlayChannel(0, sonidos[10], 0);
-            CrearVentana(&ventana_auxiliar, "Ingresa el nombre del archivo", 400, 200);
+            Mix_PlayChannel(0, sonidos[2], 0);
+            CrearVentana(&ventana_auxiliar, "Ingresa el nombre del archivo", 400, 200);  //<----Ventana para ingreso de texto
             ingresoTexto = 1;
             ventana_abierta = 0;
         }
 
 
+
         //---Renderiza el texto que se esta ingresando
         if (ingresoTexto && ventana_auxiliar.ventana != NULL) //<----Si la ventana esta abierta
         {
-            SDL_SetRenderDrawColor(ventana_auxiliar.renderer, 0, 0, 0, 255);
-            SDL_RenderClear(ventana_auxiliar.renderer);
+            SDL_SetRenderDrawColor(ventana_auxiliar.renderer, 0, 0, 0, 255); //<---Fondo negro
+            SDL_RenderClear(ventana_auxiliar.renderer);  //<---Limpia la ventana
 
             SDL_Surface *superficieTexto = TTF_RenderText_Blended(font, texto, colores_notas[0]);
             if (superficieTexto)
             {
                 SDL_Texture *textoTex = SDL_CreateTextureFromSurface(ventana_auxiliar.renderer, superficieTexto);
-                int tw, th;
+                int tw, th; //<--Tamaño
                 SDL_QueryTexture(textoTex, NULL, NULL, &tw, &th);
                 SDL_Rect destino = {50, 100, tw, th};
                 SDL_RenderCopy(ventana_auxiliar.renderer, textoTex, NULL, &destino);
@@ -728,22 +833,26 @@ int main(int argc, char *argv[])
 
 
         // ------------ RENDER PRINCIPAL ----------//
-        ManejarAnimaciones(objetos);
-        ActualizarRender(&juego, objetos);
+        ManejarAnimaciones(objetos); //<---Controla las animaciones
+        ActualizarRender(&juego, objetos); //<----Maneja el render
         SDL_Delay(100); //<--- Pequeño delay entre frame y frame para las animaciones
-    }
-    //---------------------------------------------//
 
+        //---------------------------------------------//
+
+    }
+
+  //---------------------------FIN DEL BUCLE PRINCIPAL-------------------------------//
 
 
 
 
     // ------------------------- LIMPIEZA ------------------------ //
-    TTF_CloseFont(font);
-    free(melodia.p);
-    TTF_Quit();
-    Mix_CloseAudio();
-    SDL_Quit();
+    TTF_CloseFont(font); //<---Cierra la fuente
+    free(melodia.p);  //<---Libera la melodia schonberg
+    free(melodia_jugador.p); //<----Libera la melodia Mozart
+    TTF_Quit();   //<------cierra ttf
+    Mix_CloseAudio(); //<----cierra audio
+    SDL_Quit(); //<----- Cierra sdl
     //-------------------------------------------------------------//
     return 0;
 }
